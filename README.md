@@ -123,6 +123,7 @@ Download the original data, processed data, and results into the project's root 
 - [experiments_optimization](https://drive.google.com/file/d/1xKlk3WumFp1Qz31NB4DQxos8jMD_pBAt/view?usp=sharing): results of our first-stage zero-order optimization.
 - [experiments](https://drive.google.com/file/d/1hCGzdGlzL4qvZV3GzOCGiaVBshDgFKjq/view?usp=sharing): results of our second-order optimization.
 - [gaussian_output](https://drive.google.com/file/d/12EoxhEhE90NMAqLlQoj_zM_C63BOftNW/view?usp=sharing): results of our static gaussian appearance.
+- [(optional) additional_data](https://drive.google.com/file/d/1Q9AFDr_yQD-n5YNAe157hViTBC9mo876/view?usp=sharing): data for extra clothing demos not included in the original paper.
 
 ### Play with the Interactive Playground
 Use the previously constructed PhysTwin to explore the interactive playground. Users can interact with the pre-built PhysTwin using keyboard. The next section will provide a detailed guide on how to construct the PhysTwin from the original data.
@@ -250,7 +251,7 @@ If you find this repo useful for your research, please consider citing the paper
 @article{jiang2025phystwin,
     title={PhysTwin: Physics-Informed Reconstruction and Simulation of Deformable Objects from Videos},
     author={Jiang, Hanxiao and Hsu, Hao-Yu and Zhang, Kaifeng and Yu, Hsin-Ni and Wang, Shenlong and Li, Yunzhu},
-    journal={arXiv preprint arXiv:2503.17973},
+    journal={ICCV},
     year={2025}
 }
 ```
