@@ -1,0 +1,135 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\PassOptionsToPackage{numbers,compress}{natbib}
+\input{macros.tex}
+
+\title{PhysTwin: Physics-Informed Reconstruction and Simulation of \\ Deformable Objects from Videos}
+
+\author{Hanxiao Jiang$^{1, 2}$\quad Hao-Yu Hsu$^{2}$\quad Kaifeng Zhang$^1$\quad Hsin-Ni Yu$^2$\quad Shenlong Wang$^2$\quad Yunzhu Li$^1$ \\\small{$^1$Columbia University\quad $^2$University of Illinois Urbana-Champaign}}
+
+\addtocontents{toc}{\setcounter{tocdepth}{-10}}
+
+
+\begin{document}
+\maketitle
+\input{sections/figs/fig_teaser}
+
+\input{sections/abstract}
+
+\input{sections/introduction}
+
+\input{sections/figs/fig_pipeline}
+
+\input{sections/related_works}
+
+\input{sections/problem_statement}
+
+
+\input{sections/method}
+
+\input{sections/figs/fig_indomain}
+\input{sections/figs/fig_outdomain}
+
+\input{sections/experiments}
+
+\input{sections/conclusion}
+
+\input{sections/acknowledgement}
+
+{
+    \small
+    \bibliographystyle{ieeenat_fullname}
+    \bibliography{main}
+}
+
+\newpage
+\appendix
+\addtocontents{toc}{\setcounter{tocdepth}{3}}
+\setlength{\cftbeforesecskip}{2pt}
+\renewcommand{\contentsname}{Supplement Index}
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+
+\vspace{5pt}
+
+In the supplement, we provide additional details of our PhysTwin framework, more qualitative results across different tasks, and further analysis of our methods. All the videos showcasing our results on various instances, interactions, and tasks are available on our website.
+
+
+\section{Additional Details for the Shape Prior}
+As mentioned in the main paper, we leverage TRELLIS \cite{xiang2024structured} to generate the full mesh from a single RGB observation. However, the potential non-rigid registration presents a non-trivial challenge.
+
+To address these issues, we design a registration module that leverages 2D matching to handle scale estimation, rigid registration, and non-rigid deformation. First, to estimate the initial rotation, we adopt a coarse-to-fine strategy. We use uniformly distributed virtual cameras placed on a sphere surrounding the object to render images and match 2D correspondences using SuperGlue \cite{sarlin2020superglue}. Based on the number of matches, we select the view with the maximum number of correspondences, providing a rough rotation estimate. We then apply the Perspective-n-Point (PNP) algorithm to refine the 3D matched points on the generated mesh and the corresponding 2D pixels in the observation, estimating the precise rotation matrix.
+
+
+After estimating the rotation, translation and scale ambiguities may still exist. To resolve these, we optimize the distances between matched point pairs to solve for scale and translation. This is simplified in the camera coordinate system, as after PNP, the matched points in the generated mesh and the corresponding points in the real observation point cloud lie along the same line connecting the origin. Therefore, the scale and translation optimization can be reduced to optimizing only the scale. Once these transformations are applied, the two objects should be in similar poses, with some parts undergoing non-rigid deformations. To handle such deformations, we use an as-rigid-as-possible registration to deform the mesh into a non-rigid pose matching the real observation. Finally, we perform ray-casting alignment, shooting rays from the camera to ensure that the observed points align with the deformed mesh and are neither occluded nor occlude the mesh.
+
+\input{sections/tables/tab_ablation}
+
+\input{sections/figs/fig_tracking}
+
+\input{sections/figs/fig_indomain_supp}
+
+\input{sections/figs/fig_outdomain_supp}
+
+\input{sections/figs/fig_viewpoint_supp}
+
+\section{Additional Details for 3D Gaussian Update}
+Given the previous state $\hat{\mathbf{X}}_{t}$ and the predicted state $\hat{\mathbf{X}}_{t+1}$, we first solve for the 6-DoF transformation of each mass node $\hat{\mu}^t_i \in \hat{\mathbf{X}}_{t}$. For 3D translations, we obtain them from the predicted node translations $T^t_i$. For 3D rotations, for each vertex $\hat{\mu}^t_i$, we estimate a rigid local rotation $R^t_i$ based on motions of its neighbors $\mathcal{N}(i)$ from time $t$ to $t+1$:
+\begin{equation}
+R_i^t = \arg \min_{R \in SO(3)} \sum_{j \in \mathcal{N}(i)} \|R(\hat{\mu}_j^t - \hat{\mu}_i^t) - (\hat{\mu}_j^{t+1} - \hat{\mu}_i^{t+1})\|^2.
+\end{equation}
+In the next step, we transform Gaussian kernels using Linear Blend Skinning (LBS)~\cite{sumner2007embedded, zhang2024dynamic, huang2024sc} by locally interpolating the transformations of their neighboring nodes. Specifically, for the 3D center and rotation of each Gaussian:
+\begin{equation}
+\mu_j^{t+1} = \sum_{k \in \mathcal{N}(j)} w_{jk}^t (R_k^t (\mu_j^t - \hat{\mu}_k^t) + \hat{\mu}_k^t + T_k^t)
+\end{equation}
+\begin{equation}
+q_j^{t+1} = (\sum_{k \in \mathcal{N}(j)} w_{jk}^t r_k^t) \otimes q_j^t,
+\end{equation}
+where $R_k^t \in \mathbb{R}^{3\times 3}$ and $r_k^t \in \mathbb{R}^{4}$ are the matrix and quaternion forms of the rotation of vertex $k$; $\otimes$ denotes the quaternion multiply operator; $\mathcal{N}(j)$ represents $K$-nearest vertices of a Gaussian center $\mu_j^t$; $w_{jk}^t$ is the interpolation weights between a Gaussian $\mu_j^t$ and a corresponding vertex $\hat{\mu}_k^t$, which are derived inversely proportional to their 3D distance:
+\begin{equation}
+w_{jk}^t = \frac{\|\mu_j^t - \hat{\mu}_k\|^{-1}}{\sum_{k \in \mathcal{N}(j)} \|\mu_j^t - \hat{\mu}_k\|^{-1}}
+\end{equation}
+to ensure larger weights are assigned to the spatially closer pairs. Finally, with the updated Gaussian parameters, we are able to perform rendering at timestep $t+1$ with the transformed 3D Gaussians.
+
+\section{Additional Experimental Details}
+Due to the page limit in the main paper, we provide additional qualitative results on different instances under various interactions, as well as further analysis experiments.
+
+
+\textbf{Baselines.} As described in the main paper, we select two prior works for comparison: Spring-Gaus~\cite{zhong2024reconstruction} and GS-Dynamics~\cite{zhang2024dynamic}.  
+
+For Spring-Gaus, while it demonstrates reasonable performance in modeling object-collision videos, its applicability is limited to relatively simple cases where objects primarily deform under gravity, restricting the range of supported object types. To adapt Spring-Gaus~\cite{zhong2024reconstruction} to our setting, we extend it by introducing support for control points. Specifically, we add additional springs that connect the control points to their neighboring object points within a predefined distance, enabling direct optimization on our dataset.  
+Furthermore, to ensure compatibility with our sparse-view setup, we incorporate our shape prior as the initialization for their static Gaussian construction. Since their constructed Gaussians lack the ability to generalize to different initial conditions, we evaluate their approach only on the first two tasks: reconstruction \& resimulation and future prediction.
+
+For GS-Dynamics, we compare our method with theirs across all three tasks.  
+To enable the GNN-based dynamics model to produce realistic renderings, we augment it with our Gaussian blending strategy, enhancing its ability to generate high-quality images.  
+
+\textbf{Tasks.} \ourabbr is constructed solely from the training set of each data point, and its performance is evaluated based on how well it matches the original video within the test set. For the generalization task, we create a dataset consisting of interaction pairs performed on the same object. For example, we construct \ourabbr for a sloth toy based on a scenario where it is lifted with one hand and then evaluate its performance in a different scenario where its legs are stretched using both hands. The dataset includes 11 such pairs, and since each pair allows for two possible transfer directions (i.e., from one interaction to another or vice versa), this results in a total of 22 generalization experiments. In this task, \ourabbr is still constructed using only the training set of the source interaction but is applied across the entire sequence of the target interaction.
+
+
+
+\textbf{Qualitative Results.} We present more qualitative results for different instances across various interactions on our three tasks: reconstruction \& resimulation, future prediction (\cref{fig:indomain_supp}), and generalization to unseen interactions (\cref{fig:outdomain_supp}). All results demonstrate the superior performance of our method compared to prior work.
+
+
+\textbf{Different Viewpoints.} \Cref{fig:vp_supp} presents the visualization of the rendering results from different viewpoints, demonstrating the robustness of our \ourabbr in handling various viewpoints.
+
+
+\textbf{Ablation Study on Hierarchical Optimization.}
+To better understand the importance of our hierarchical sparse-to-dense optimization strategy, we conduct ablation studies with two variants: one using only zero-order optimization and the other using only first-order optimization. These experiments are performed on both the reconstruction \& resimulation task and the future prediction task. \Cref{tab:quant_ablation} presents the results of different variants.
+Our complete pipeline achieves the best performance across both tasks. The variant with only zero-order optimization fails to capture fine-grained material properties, limiting its ability to represent different objects. On the other hand, the variant with only first-order dense optimization neglects the optimization of non-differentiable parameters, such as the spring connections. The default connections fail to accurately model the real object structure, and the connection distances between control points and object points cannot be effectively handled with a fixed initialization value.
+
+\textbf{Tracking Results.} \Cref{fig:tracking} shows the visualization of our tracking results and the pseudo-GT tracking results from CoTracker3 \cite{karaev2024cotracker3}. Even though our PhysTwin is optimized with noisy GT tracking, our model achieves much better and smoother tracking results during both the reconstruction \& resimulation and future prediction tasks.
+
+
+\textbf{Data Efficiency Experiment.}  
+To further analyze the performance difference between our method and the GNN-based approach, we collected 29 additional data points on the same motion (double-hand stretching and folding rope), bringing the total to 30 data points for training the neural dynamics model. In contrast, our method is trained using only 1 data point. The results show that GS-Dynamics does not show a performance boost even with 30 times more data than our method. This indicates that their approach is data-hungry, whereas our method demonstrates significantly better data efficiency in learning a useful dynamics model. Even with 30 times more data, the learning-based method still struggles to capture precise dynamics as effectively as our approach.
+
+\section{Future Work}
+Our work takes an important step towards constructing an effective physical digital twin for deformable objects from sparse video observations. Unlike existing methods that primarily focus on geometric reconstruction, our approach integrates physical properties, enabling accurate resimulation, future prediction, and generalization to unseen interactions. 
+Despite using three RGBD views in our current setup, our framework is inherently flexible and can extend to even sparser observations. With appropriate priors, a single RGB video could serve as a promising and scalable alternative, making our approach more applicable to in-the-wild scenarios.
+Furthermore, while our framework optimizes physical parameters based on a single type of interaction, expanding to multiple action modalities could further enhance the estimation of an object's intrinsic properties. Learning from a broader range of interactions may reveal richer physical characteristics and improve robustness.
+Beyond reconstruction and resimulation, our method opens up exciting possibilities for downstream applications, particularly in robotics. By providing a structured yet efficient digital twin, our approach significantly simplifies real-to-sim transfer, reducing the reliance on domain randomization for reinforcement learning. Additionally, the high-speed simulation and real-time rendering capabilities of our framework pave the way for more effective model-based robotic planning.
+By bridging the gap between perception and physics-based simulation, our method lays a solid foundation for future advancements in both computer vision and robotics.
+
+
+\end{document}

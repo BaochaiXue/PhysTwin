@@ -1,0 +1,68 @@
+\section{Experiments}
+
+\input{sections/tables/tab_indomain}
+\input{sections/tables/tab_outdomain}
+
+
+In this section, we evaluate the performance of our PhysTwin framework across three distinct tasks involving different types of objects. Our primary objective is to address the following three questions:
+(1)~How accurately does our framework reconstruct and resimulate deformable objects and predict their future states?  
+(2)~How well does the constructed \ourabbr generalize to unseen interactions?
+(3)~What is the utility of \ourabbr in downstream tasks?
+
+\subsection{Experiment Settings}
+
+\textbf{\indent Dataset.}
+We collect a dataset of RGBD videos capturing human interactions with various deformable objects with different physical properties, such as ropes, stuffed animals, cloth, and delivery packages. Three RealSense-D455 RGBD cameras are used to record the interactions. 
+Each video is 1 to 10 seconds long and captures different interactions, including quick lifting, stretching, pushing, and squeezing with one or both hands. 
+We collect 22 scenarios encompassing various object types, interaction types, and hand configurations. For each scenario, the RGBD videos are split into a training set and a test set following a 7:3 ratio, where only the training set is used to construct \ourabbr. 
+We manually annotate 9 ground-truth tracking points for each video to evaluate tracking performance with the semi-auto tool introduced in~\cite{doersch2023tapir}. 
+
+\input{sections/figs/fig_application}
+
+\textbf{Tasks.}
+To assess the effectiveness of our PhysTwin framework and the quality of our constructed \ourabbr, we formulate three tasks:  
+(1)~Reconstruction \& Resimulation;  
+(2)~Future Prediction; and 
+(3)~Generalization to Unseen Actions.
+
+For the Reconstruction \& Resimulation task, the objective is to construct \ourabbr such that it can accurately reconstruct and resimulate the motion of deformable objects given the actions represented by the control point positions. 
+
+For the Future Prediction task, we aim to assess whether \ourabbr can perform well on unseen future frames during its construction.  
+For the Generalization to Unseen Interactions task, the goal is to assess whether \ourabbr can adapt to different interactions. To evaluate this, we construct a generalization dataset consisting of interaction pairs performed on the same object but with varying motions, including differences in hand configuration and interaction type.
+
+
+\textbf{Baselines.}
+To the best of our knowledge, there is currently no existing work that demonstrates good performance across all three tasks. Therefore, we select two main research directions as baselines and further augment them to match the tasks in our setting (full details in the supplementary).
+
+The first baseline we consider is a physics-based simulation method for identifying the material properties of deformable objects, Spring-Gaus~\cite{zhong2024reconstruction}. Their work has demonstrated strong capabilities in reconstruction, resimulation, and future prediction in its original setting. However, their framework does not support external control inputs, so we augment it with additional control capabilities.
+
+The second baseline is a learning-based simulation approach, GS-Dynamics~\cite{zhang2024dynamic}, which employs a GNN-based neural dynamics model to learn system dynamics directly from partial observations. In their original setting, video preprocessing with Dyn3DGS~\cite{luiten2024dynamic} is required to obtain tracking information. For a fairer comparison, we strengthened it by using our 3D-lifting tracker based on CoTracker3~\cite{karaev2024cotracker3}, which provides more efficient and accurate supervision for training the neural dynamics model used by GS-Dynamics.
+
+
+\textbf{Evaluation.}
+To better understand whether our prediction matches the observations, we evaluate predictions in both 3D and 2D. For the 3D evaluation, we use the single-direction Chamfer Distance (partial ground truth with our full-state prediction) and the tracking error (based on our manually annotated ground-truth tracking points). For the 2D evaluation, we assess image quality using PSNR, SSIM, and LPIPS~\cite{zhang2018perceptual}, and silhouette alignment using IoU. We perform 2D evaluation only at the center viewpoint due to optimal visibility of objects, with metrics averaged across all frames and scenarios. Specially, for the Spring-Gaus~\cite{zhong2024reconstruction} baseline, its optimization process is unstable due to inaccurate physics modeling. Therefore, we report the above metrics only for its successful cases.
+
+\subsection{Results}
+
+To assess the performance of our framework and the quality of our constructed \ourabbr,
+we compare with two augmented baselines across three task settings. Our quantitative analysis reveals that the PhysTwin framework consistently outperforms the baselines across various tasks. 
+
+\textbf{Reconstruction \& Resimulation.}  
+The quantitative results in~\cref{tab:quant_indomain} Reconstruction \& Resimulation column demonstrate the superior performance of our PhysTwin method over baselines. Our approach significantly improves all evaluated metrics, including Chamfer Distance, tracking error, and 2D IoU, confirming that our reconstruction and resimulation align more closely with the original observations. This highlights the effectiveness of our model in learning a more accurate dynamics model under sparse observations.
+Additionally, rendering metrics show that our method produces more realistic 2D images, benefiting from the Gaussian blending strategy and enhanced dynamic modeling. \Cref{fig:indomain} further provides qualitative visualizations across different objects, illustrating precise alignment with original observations.
+Notably, our physics-based representation inherently improves point tracking. After physics-constrained optimization, our tracking surpasses the original CoTracker3~\cite{karaev2024cotracker3} predictions used for training, achieving better alignment after global optimization (See supplement for more details).
+
+\textbf{Future Prediction.}  
+\Cref{tab:quant_indomain}, in the Future Prediction column, demonstrates that our method achieves superior performance in predicting unseen frames, excelling in both dynamics alignment and rendering quality. \Cref{fig:indomain} further provides qualitative results, illustrating the accuracy of our predictions on unseen frames.
+
+\textbf{Generalization to Unseen Interactions.}  
+We also evaluate the generalization performance to unseen interactions. 
+Our dataset includes transfers from one interaction (e.g., single lift) to significantly different interactions (e.g., double stretch). 
+We directly use our constructed \ourabbr and leverage our registration pipeline to align it with the first frame of the target case. \Cref{fig:outdomain} shows that our method closely matches the ground truth observations in terms of dynamics. Quantitative results further demonstrate the robustness of our method across different actions. In contrast, the neural dynamics model struggles to adapt to environmental changes and diverse interactions as effectively as our approach. Moreover, in unseen interaction scenarios, our method achieves performance comparable to that on the future prediction task, highlighting the robustness and generalization capability of our constructed PhysTwin.
+
+\subsection{Application}
+\label{sec:application}
+The efficient forward simulation capabilities of our Spring-Mass simulator, implemented using Warp~\cite{warp2022}, enable a variety of downstream applications.
+\Cref{fig:application} showcases key applications enabled by our \ourabbr:
+(1)~Interactive Simulation: Users can interact with objects in real time using keyboard controls, either with one or both hands. The system also supports real-time simulation of an object's future state during human teleoperation with robotic arms. This feature serves as a valuable tool for predicting object dynamics during manipulation.
+(2)~Model-Based Robotic Planning: Owing to the high fidelity of our constructed \ourabbr, it can be used as a dynamic model in planning pipelines. By integrating it with model-based planning techniques, we can generate effective motion plans for robots to complete a variety of tasks.

@@ -1,0 +1,82 @@
+\section{Method}
+
+In this section, we formulate the construction of \ourabbr as an optimization problem. We then present our two-stage strategy, where the first stage addresses the physics-related optimization, followed by the appearance-based optimization in the second stage. Finally, we demonstrate the capability of our framework to perform real-time simulation using the constructed \ourabbr.
+
+
+\subsection{Problem Formulation}
+\label{sec:ps}
+Given three RGBD videos of a deformable object under interaction, our objective is to construct a \ourabbr model that captures the geometry, appearance, and physical parameters of the object over time. At each time frame \( t \), we denote the RGBD observations from the \( i \)-th camera as \( \mathbf{O}_{t,i} \), where \( \mathbf{O} = (\mathbf{I}, \mathbf{D}) \) represents the RGB image \( \mathbf{I} \) and depth map \( \mathbf{D} \).
+
+The goal of our optimization problem is to minimize the discrepancy between the predicted observation \( \hat{\mathbf{O}}_{t,i} \) and the actual observation \( \mathbf{O}_{t,i} \). The predicted observation is derived by projecting and rendering the predicted state \( \hat{\mathbf{X}}_t \) onto images through a function \( g_\theta \), where $\theta$ encodes the appearance of the objects represented by Gaussian splats. The 3D state \( \hat{\mathbf{X}}_t \) evolves over time according to the Spring-Mass model, which captures the deformable object's dynamics and updates the state using the explicit Euler integration method. The optimization problem is formulated as:
+\begin{equation}
+\label{eq:goal}
+\begin{aligned}
+    \min_{\alpha, \mathcal{G}_0, \theta} \sum_{t, i} &C(\hat{\mathbf{O}}_{t, i}, \mathbf{O}_{t,i}) \\
+    \text{s.t.} \quad \hat{\mathbf{O}}_{t, i} = g_\theta(\hat{\mathbf{X}}_{t}, i),  \quad&\quad \hat{\mathbf{X}}_{t+1} = f_{\alpha, \mathcal{G}} (\hat{\mathbf{X}}_{t}, a_t),
+\end{aligned}
+\end{equation}
+where $\alpha, \mathcal{G}_0, \theta$ captures the physics, geometry, topology and appearance parameters (\cref{sec:preliminary}); the cost function quantifies the difference between the predicted observation \( \hat{\mathbf{O}}_{t,i} \) and the actual observation \( \mathbf{O}_{t,i} \). This cost function is decomposed into three components:
+$
+C = C_{\mathrm{geometry}} + C_{\mathrm{motion}} + C_{\mathrm{render}},
+$
+each capturing the discrepancy between the inferred system states and the corresponding observations from 3D geometry, 3D motion tracking, and 2D color, respectively (we defer the details of each cost component to Sec.~\ref{sec:invphysics} and Sec.~\ref{sec:gaussians}).
+The function \( g_\theta \) is the observation model, describing the projection from the predicted state to the image plane and rendering image-space sensory observation from the $i$-th camera. The \( f_{\alpha, \mathcal{G}} \) models the dynamic evolution of the object’s state under the Spring-Mass model (\cref{sec:preliminary}).
+
+\subsection{PhysTwin Framework}
+
+Given the complexity of the overall optimization defined in Eq.~\ref{eq:goal}, our PhysTwin framework decomposes it into two stages. The first stage focuses on optimizing the geometry and physical parameters, while the second stage is dedicated to optimizing the appearance-related parameters.
+
+\subsubsection{Physics and Geometry Optimization}
+\label{sec:invphysics}
+As outlined in our optimization formulation in \cref{sec:ps}, the objective is to minimize the discrepancy between the predicted observation \( \hat{\mathbf{O}}_{t,i} \) and the actual observation \( \mathbf{O}_{t,i} \). First, we convert the depth observations \( \mathbf{D}_t \) at each time frame \( t \) into the observed partial 3D point cloud \( \mathbf{X}_{t} \). 
+In the first stage, we consider the following formulation for the optimization:
+\begin{equation}
+\label{eq:physics_and_geometry}
+\begin{aligned}
+    &\min_{\alpha, \mathcal{G}_0} \sum_t \left( C_{\text{geometry}}(\hat{\mathbf{X}}_t, \mathbf{X}_{t}) + C_{\text{motion}}(\hat{\mathbf{X}}_t, \mathbf{X}_{t}) \right) \\
+    &\text{s.t.} \quad \hat{\mathbf{X}}_{t+1} = f_{\alpha, \mathcal{G}_0} (\hat{\mathbf{X}}_{t}, a_t),
+\end{aligned}
+\end{equation}
+where the \( C_{\text{geometry}} \) function quantifies the single-direction Chamfer distance between the partially observed point cloud \( \mathbf{X}_{t} \) and the inferred state \( \hat{\mathbf{X}}_t \), and \( C_{\text{motion}} \) quantifies the tracking error between the predicted point \( \hat{\mathbf{x}}_i^t \) and its corresponding observed tracking \( \mathbf{x}_i^t \). The observed tracking is obtained using the vision foundation model CoTracker3~\cite{karaev2024cotracker3}, followed by lifting the result to 3D via depth map unprojection.
+
+
+There are three main challenges in the first-stage optimization: (1) partial observations from sparse viewpoints; (2) joint optimization of both the discrete topology and physical parameters; and (3) discontinuities in the dynamic model, along with the long time horizon and dense parameter space, which make continuous optimization difficult. To address these challenges, we handle the geometry and other parameters separately. Specifically, we first leverage generative shape initialization to obtain the full geometry, then employ our two-stage sparse-to-dense optimization to refine the remaining parameters.
+
+\textbf{Generative Shape Prior.} 
+Due to partial observations, recovering the full geometry is challenging. We leverage a shape prior from the image-to-3D generative model TRELLIS~\cite{xiang2024structured} to generate a complete mesh conditioned on a single RGB observation of the masked object. To improve mesh quality, the input to TRELLIS is first enhanced using a super-resolution model~\cite{rombach2022high} that upscales the segmented foreground (obtained via Grounded-SAM2~\cite{ren2024grounded}). While the resulting mesh corresponds reasonably well with the camera observation, we can still observe inconsistencies in scale, pose, and deformation.
+
+To address this, we design a registration module that uses 2D matching for scale estimation, rigid registration, and non-rigid deformation. A coarse-to-fine strategy first estimates initial rotation via 2D correspondences matched using SuperGlue~\cite{sarlin2020superglue}, followed by refinement with the Perspective-n-Point (PnP)~\cite{lepetit2009ep} algorithm. We resolve scale and translation ambiguities by optimizing the distances between matched points in the camera coordinate system. After applying these transformations, the objects are aligned in pose, with some deformations handled by as-rigid-as-possible registration~\cite{sorkine2007rigid}. Finally, ray-casting alignment ensures that observed points match the deformed mesh without occlusions.
+
+These steps yield a shape prior aligned with the first-frame observations, which serves as a crucial initialization for the inverse physics and appearance optimization stages.
+
+
+\textbf{Sparse-to-Dense Optimization.}
+The Spring-Mass model consists of both the topological structure (i.e., the connectivity of the springs) and the physical parameters defined on the springs. As mentioned in \cref{sec:preliminary}, we also include control parameters to connect springs between control points and object points, defined by a radius and a maximum number of neighbors.
+Similarly, for topology optimization, we employ a heuristic approach that connects nearest-neighbor points, also parameterized by a connection radius and a maximum number of neighbors, thereby controlling the density of the springs. 
+To extract control points from video data, we utilize Grounded-SAM2~\cite{ren2024grounded} to segment the hand mask and CoTracker3~\cite{karaev2024cotracker3} to track hand movements. After lifting the points to 3D, we apply farthest-point sampling to obtain the final set of control points.  
+
+All the aforementioned components constitute the parameter space we aim to optimize. The two main challenges are: (1) some parameters are non-differentiable (e.g., the radius and maximum number of neighbors); and (2) to represent a wide range of objects, we model dense spring stiffness, leading to a parameter space with tens of thousands of springs.
+
+To address these challenges, we introduce a hierarchical sparse-to-dense optimization strategy. Initially, we employ zero-order, sampling-based optimization to estimate the parameters, which naturally circumvents the issue of differentiability. However, zero-order optimization becomes inefficient when the parameter space is too large. Therefore, in the first stage, we assume homogeneous stiffness, allowing the topology and other physical parameters to achieve a good initialization.
+In the second stage, we further refine the parameters using first-order gradient descent, leveraging our custom-built differentiable spring-mass simulator. This stage simultaneously optimizes the dense spring stiffness and collision parameters.
+
+Beyond the optimization strategy, we incorporate additional supervision by utilizing tracking priors from vision foundation models. We lift the 2D tracking prediction into 3D to obtain pseudo-ground-truth tracking data for the 3D points, which forms a crucial component of our cost function as mentioned in \cref{eq:physics_and_geometry}.
+
+By integrating our optimization strategy with a cost function that leverages additional tracking priors, our PhysTwin framework can effectively and efficiently model the dynamics of diverse interactable objects from videos.
+
+\subsubsection{Appearance Optimization}
+\label{sec:gaussians}
+
+For the second-stage appearance optimization, to model object appearance, we construct a set of static 3D Gaussian kernels parameterized by $\theta$, with each Gaussian defined by a 3D center position $\mu$, a rotation matrix represented by a quaternion $q \in \textbf{SO}(3)$, a scaling matrix represented by a 3D vector $s$, an opacity value $\alpha$, and color coefficients $c$. We optimize $\theta$ here via \begin{equation}
+\label{eq:splats}
+    \min_\theta \sum_{t, i} C_{\mathrm{render}}(\hat{\mathbf{I}}_{i, t}, \mathbf{I}_{i, t}) \text{\ s.t. } \hat{\mathbf{I}}_{i, t} = g_{\theta}(\hat{\mathbf{X}}_{t}, i),
+\end{equation} where $\hat{\mathbf{X}}_{t}$ is the optimized system states at time $t$, $i$ is the camera index, and $\mathbf{I}_{i, t}$, $\hat{\mathbf{I}}_{i, t}$ are the ground truth image and rendered image from camera view $i$ at time $t$, respectively. $C_{\mathrm{render}}$ computes the $\mathcal{L}_1$ loss with a D-SSIM term between the rendering and ground truth image. For simplicity, we set $t=0$ to optimize appearance only at the first frame. We restrict the Gaussian shape to be isotropic to prevent spiky artifacts during deformation.
+
+To ensure realistic rendering under deformation, we need to dynamically adjust each Gaussian at each timestep $t$ based on the transition between states $\hat{\mathbf{X}}_{t}$ and $\hat{\mathbf{X}}_{t+1}$. To achieve this, we adopt a Gaussian updating algorithm using Linear Blend Skinning (LBS)~\cite{sumner2007embedded, zhang2024dynamic, huang2024sc}, which interpolates the motions of 3D Gaussians using the motions of neighboring mass nodes. Please refer to the supplementary for details. 
+
+
+\subsection{Capabilities of \ourabbr}
+Our constructed \ourabbr supports real-time simulation of deformable objects under various motions while maintaining realistic appearance. This real-time, photorealistic simulation enables interactive exploration of object dynamics. 
+
+By introducing control points and dynamically connecting them to object points via springs, our system can simulate diverse motion patterns and interactions. These capabilities make \ourabbr a powerful representation for real-time interactive simulation and model-based robotic motion planning, which are further described in \cref{sec:application}.
+

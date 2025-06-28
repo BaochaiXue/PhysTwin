@@ -1,0 +1,19 @@
+\begin{table}[ht]
+\caption{\small
+    \textbf{Quantitative Results on Generalization to Unseen Interactions.} We compare our method with GS-Dynamics~\cite{zhang2024dynamic} on generalization to unseen interactions. Both methods are trained on the same video with a specific interaction and tested on unseen interactions. Our method achieves significantly better results.
+}
+\centering
+\vspace{-5pt}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{@{} l rr rr rr @{}}
+\toprule
+Method & CD $\downarrow$ & Track Error $\downarrow$ & IoU \% $\uparrow$ & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\midrule
+GS-Dynamics~\cite{zhang2024dynamic} & 0.029 & 0.038 & 63.4 & 25.053 & 0.934 & 0.067  \\
+PhysTwin (\textbf{Ours}) & \textbf{0.013} & \textbf{0.018} & \textbf{72.18} & \textbf{26.199} & \textbf{0.938} & \textbf{0.047}\\
+\bottomrule
+\end{tabular}
+}
+\vspace{-10pt}
+\label{tab:quant_outdomain}
+\end{table}

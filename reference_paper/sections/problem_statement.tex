@@ -1,0 +1,20 @@
+\section{Preliminary: Spring-Mass Model}
+\label{sec:preliminary}
+Spring-mass models are widely used for simulating deformable objects due to their simplicity and computational efficiency. A deformable object is represented as a set of spring-connected mass nodes, forming a graph structure $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, where $\mathcal{V}$ is the set of mass points and $\mathcal{E}$ is the set of springs. Each mass node $i$ has a position $\mathbf{x}_i \in \mathbb{R}^3$ and velocity $\mathbf{v}_i \in \mathbb{R}^3$, which evolve over time according to Newtonian dynamics. Springs are constructed between neighboring nodes based on a predefined topology, defining the elastic structure of the object.
+
+The force on node $i$ is the result of the combined effects of adjacent nodes connected by springs:
+\begin{equation}
+\mathbf{F}_i = \sum_{(i, j) \in \mathcal{E}} \mathbf{F}_{i, j}^{\text{spring}} + \mathbf{F}_{i, j}^{\text{dashpot}} + \mathbf{F}_i^{\text{ext}},
+\end{equation}
+where the spring force and dashpot damping force between nodes $i$ and $j$ are given by $\mathbf{F}_{i, j}^{\text{spring}} = k_{ij} (\|\mathbf{x}_j - \mathbf{x}_i\| - l_{ij}) \frac{\mathbf{x}_j - \mathbf{x}_i}{\|\mathbf{x}_j - \mathbf{x}_i\|}$ and $\mathbf{F}_{i, j}^{\text{dashpot}} = -\gamma (\mathbf{v}_i - \mathbf{v}_j)$, respectively. Here, $k_{ij}$ is the spring stiffness, $l_{ij}$ is the rest length, and $\gamma$ is the dashpot damping coefficient. The external force $\mathbf{F}_i^{\text{ext}}$ accounts for factors such as gravity, collisions, and user interactions. The spring force restores the system to its rest shape, while the dashpot damping dissipates energy, preventing oscillations. For collisions, we use impulse-based collision handling when two mass points are very close, including collisions between the object and the collider, as well as between two object points.
+
+The spring-mass model updates the system state with a dynamic model
+$
+\label{eq:transition}
+\mathbf{X}_{t+1} = f_{\alpha, \mathcal{G}_0}(\mathbf{X}_{t}, a_t)
+$
+by applying explicit Euler integration to both velocity and position. More formally, for all $i$,
+$\label{eq:state_update}
+\mathbf{v}_i^{t+1} = \delta\left(\mathbf{v}_i^t + \Delta t\,\frac{\mathbf{F}_i}{m_i}\right), \quad
+\mathbf{x}_i^{t+1} = \mathbf{x}_i^t + \Delta t\,\mathbf{v}_i^{t+1},$
+where \(\mathbf{X}_t\) represents the system state at time \(t\), and $\delta$ represents the drag damping. In this formulation, \(\alpha\) denotes all physical parameters of the spring-mass model, including spring stiffness, collision parameters, and damping. It also encompasses the parameters related to the control interaction. \(\mathcal{G}_0\) represents the ``canonical'' geometry and topology for the spring-mass system\footnote{In practice, we use the first-frame object state as the canonical state.}, and \(a_t\) represents the action at time \(t\).

@@ -1,0 +1,369 @@
+\begin{thebibliography}{72}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Attal et~al.(2023)Attal, Huang, Richardt, Zollhoefer, Kopf, O’Toole, and Kim]{attal2023hyperreel}
+Benjamin Attal, Jia-Bin Huang, Christian Richardt, Michael Zollhoefer, Johannes Kopf, Matthew O’Toole, and Changil Kim.
+\newblock Hyperreel: High-fidelity 6-dof video with ray-conditioned sampling.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 16610--16620, 2023.
+
+\bibitem[Cao and Johnson(2023)]{cao2023hexplane}
+Ang Cao and Justin Johnson.
+\newblock Hexplane: A fast representation for dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 130--141, 2023.
+
+\bibitem[Chen et~al.(2022{\natexlab{a}})Chen, Tretschk, Stuyck, Kadlecek, Kavan, Vouga, and Lassner]{chen2022virtual}
+Hsiao-yu Chen, Edith Tretschk, Tuur Stuyck, Petr Kadlecek, Ladislav Kavan, Etienne Vouga, and Christoph Lassner.
+\newblock Virtual elastic objects.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 15827--15837, 2022{\natexlab{a}}.
+
+\bibitem[Chen et~al.(2022{\natexlab{b}})Chen, Yi, Li, Ding, Torralba, Tenenbaum, and Gan]{chen2022comphy}
+Zhenfang Chen, Kexin Yi, Yunzhu Li, Mingyu Ding, Antonio Torralba, Joshua~B Tenenbaum, and Chuang Gan.
+\newblock Comphy: Compositional physical reasoning of objects and events from videos.
+\newblock \emph{arXiv preprint arXiv:2205.01089}, 2022{\natexlab{b}}.
+
+\bibitem[Chu et~al.(2022)Chu, Liu, Zheng, Franz, Seidel, Theobalt, and Zayer]{chu2022physics}
+Mengyu Chu, Lingjie Liu, Quan Zheng, Erik Franz, Hans-Peter Seidel, Christian Theobalt, and Rhaleb Zayer.
+\newblock Physics informed neural fields for smoke reconstruction with sparse data.
+\newblock \emph{ACM Transactions on Graphics}, 41\penalty0 (4):\penalty0 119:1--119:14, 2022.
+
+\bibitem[Curless and Levoy(1996)]{curless1996volumetric}
+Brian Curless and Marc Levoy.
+\newblock A volumetric method for building complex models from range images.
+\newblock In \emph{Proceedings of the 23rd annual conference on Computer graphics and interactive techniques}, pages 303--312, 1996.
+
+\bibitem[Doersch et~al.(2023)Doersch, Yang, Vecerik, Gokay, Gupta, Aytar, Carreira, and Zisserman]{doersch2023tapir}
+Carl Doersch, Yi Yang, Mel Vecerik, Dilara Gokay, Ankush Gupta, Yusuf Aytar, Joao Carreira, and Andrew Zisserman.
+\newblock {TAPIR}: Tracking any point with per-frame initialization and temporal refinement.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on Computer Vision}, pages 10061--10072, 2023.
+
+\bibitem[Driess et~al.(2023)Driess, Huang, Li, Tedrake, and Toussaint]{driess2023learning}
+Danny Driess, Zhiao Huang, Yunzhu Li, Russ Tedrake, and Marc Toussaint.
+\newblock Learning multi-object dynamics with compositional neural radiance fields.
+\newblock In \emph{Conference on robot learning}, pages 1755--1768. PMLR, 2023.
+
+\bibitem[Du et~al.(2021)Du, Wu, Ma, Wah, Spielberg, Rus, and Matusik]{du2021diffpd}
+Tao Du, Kui Wu, Pingchuan Ma, Sebastien Wah, Andrew Spielberg, Daniela Rus, and Wojciech Matusik.
+\newblock Diffpd: Differentiable projective dynamics.
+\newblock \emph{ACM Transactions on Graphics (ToG)}, 41\penalty0 (2):\penalty0 1--21, 2021.
+
+\bibitem[Duan et~al.(2024)Duan, Wei, Dai, He, Chen, and Chen]{duan20244d}
+Yuanxing Duan, Fangyin Wei, Qiyu Dai, Yuhang He, Wenzheng Chen, and Baoquan Chen.
+\newblock 4d-rotor gaussian splatting: towards efficient novel view synthesis for dynamic scenes.
+\newblock In \emph{ACM SIGGRAPH 2024 Conference Papers}, pages 1--11, 2024.
+
+\bibitem[Evans et~al.(2022)Evans, Thankaraj, and Pinto]{evans2022context}
+Ben Evans, Abitha Thankaraj, and Lerrel Pinto.
+\newblock Context is everything: Implicit identification for dynamics adaptation.
+\newblock In \emph{2022 International Conference on Robotics and Automation (ICRA)}, pages 2642--2648. IEEE, 2022.
+
+\bibitem[Feng et~al.(2024)Feng, Shang, Li, Shao, Jiang, and Yang]{feng2024pie}
+Yutao Feng, Yintong Shang, Xuan Li, Tianjia Shao, Chenfanfu Jiang, and Yin Yang.
+\newblock Pie-nerf: Physics-based interactive elastodynamics with nerf.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 4450--4461, 2024.
+
+\bibitem[Fridovich-Keil et~al.(2023)Fridovich-Keil, Meanti, Warburg, Recht, and Kanazawa]{fridovich2023k}
+Sara Fridovich-Keil, Giacomo Meanti, Frederik~Rahb{\ae}k Warburg, Benjamin Recht, and Angjoo Kanazawa.
+\newblock K-planes: Explicit radiance fields in space, time, and appearance.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 12479--12488, 2023.
+
+\bibitem[Gao et~al.(2022)Gao, Li, Tulsiani, Russell, and Kanazawa]{gao2022monocular}
+Hang Gao, Ruilong Li, Shubham Tulsiani, Bryan Russell, and Angjoo Kanazawa.
+\newblock Monocular dynamic view synthesis: A reality check.
+\newblock \emph{Advances in Neural Information Processing Systems}, 35:\penalty0 33768--33780, 2022.
+
+\bibitem[Geilinger et~al.(2020)Geilinger, Hahn, Zehnder, B{\"a}cher, Thomaszewski, and Coros]{geilinger2020add}
+Moritz Geilinger, David Hahn, Jonas Zehnder, Moritz B{\"a}cher, Bernhard Thomaszewski, and Stelian Coros.
+\newblock Add: Analytically differentiable dynamics for multi-body systems with frictional contact.
+\newblock \emph{ACM Transactions on Graphics (TOG)}, 39\penalty0 (6):\penalty0 1--15, 2020.
+
+\bibitem[Guan et~al.(2022)Guan, Deng, Wang, and Yang]{guan2022neurofluid}
+Shanyan Guan, Huayu Deng, Yunbo Wang, and Xiaokang Yang.
+\newblock Neurofluid: Fluid dynamics grounding with particle-driven neural radiance fields.
+\newblock In \emph{International conference on machine learning}, pages 7919--7929. PMLR, 2022.
+
+\bibitem[Guo et~al.(2023)Guo, Sun, Dai, Chen, Ye, Tan, Ding, Zhang, and Wang]{guo2023forward}
+Xiang Guo, Jiadai Sun, Yuchao Dai, Guanying Chen, Xiaoqing Ye, Xiao Tan, Errui Ding, Yumeng Zhang, and Jingdong Wang.
+\newblock Forward flow for novel view synthesis of dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on Computer Vision}, pages 16022--16033, 2023.
+
+\bibitem[Hansen(2006)]{hansen2006cma}
+Nikolaus Hansen.
+\newblock The cma evolution strategy: a comparing review.
+\newblock \emph{Towards a new evolutionary computation: Advances in the estimation of distribution algorithms}, pages 75--102, 2006.
+
+\bibitem[Heiden et~al.(2021)Heiden, Macklin, Narang, Fox, Garg, and Ramos]{heiden2021disect}
+Eric Heiden, Miles Macklin, Yashraj Narang, Dieter Fox, Animesh Garg, and Fabio Ramos.
+\newblock Disect: A differentiable simulation engine for autonomous robotic cutting.
+\newblock \emph{arXiv preprint arXiv:2105.12244}, 2021.
+
+\bibitem[Huang et~al.(2024)Huang, Sun, Yang, Lyu, Cao, and Qi]{huang2024sc}
+Yi-Hua Huang, Yang-Tian Sun, Ziyi Yang, Xiaoyang Lyu, Yan-Pei Cao, and Xiaojuan Qi.
+\newblock Sc-gs: Sparse-controlled gaussian splatting for editable dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 4220--4230, 2024.
+
+\bibitem[Jatavallabhula et~al.(2021)Jatavallabhula, Macklin, Golemo, Voleti, Petrini, Weiss, Considine, Parent-L{\'e}vesque, Xie, Erleben, et~al.]{jatavallabhula2021gradsim}
+Krishna~Murthy Jatavallabhula, Miles Macklin, Florian Golemo, Vikram Voleti, Linda Petrini, Martin Weiss, Breandan Considine, J{\'e}r{\^o}me Parent-L{\'e}vesque, Kevin Xie, Kenny Erleben, et~al.
+\newblock gradsim: Differentiable simulation for system identification and visuomotor control.
+\newblock \emph{arXiv preprint arXiv:2104.02646}, 2021.
+
+\bibitem[Jiang et~al.(2024)Jiang, Yu, Xie, Li, Feng, Wang, Li, Lau, Gao, Yang, et~al.]{jiang2024vr}
+Ying Jiang, Chang Yu, Tianyi Xie, Xuan Li, Yutao Feng, Huamin Wang, Minchen Li, Henry Lau, Feng Gao, Yin Yang, et~al.
+\newblock Vr-gs: A physical dynamics-aware interactive gaussian splatting system in virtual reality.
+\newblock In \emph{ACM SIGGRAPH 2024 Conference Papers}, pages 1--1, 2024.
+
+\bibitem[Karaev et~al.(2024)Karaev, Makarov, Wang, Neverova, Vedaldi, and Rupprecht]{karaev2024cotracker3}
+Nikita Karaev, Iurii Makarov, Jianyuan Wang, Natalia Neverova, Andrea Vedaldi, and Christian Rupprecht.
+\newblock Cotracker3: Simpler and better point tracking by pseudo-labelling real videos.
+\newblock \emph{arXiv preprint arXiv:2410.11831}, 2024.
+
+\bibitem[Kratimenos et~al.(2024)Kratimenos, Lei, and Daniilidis]{kratimenos2024dynmf}
+Agelos Kratimenos, Jiahui Lei, and Kostas Daniilidis.
+\newblock Dynmf: Neural motion factorization for real-time dynamic view synthesis with 3d gaussian splatting.
+\newblock In \emph{European Conference on Computer Vision}, pages 252--269. Springer, 2024.
+
+\bibitem[Lepetit et~al.(2009)Lepetit, Moreno-Noguer, and Fua]{lepetit2009ep}
+Vincent Lepetit, Francesc Moreno-Noguer, and Pascal Fua.
+\newblock Ep n p: An accurate o (n) solution to the p n p problem.
+\newblock \emph{International journal of computer vision}, 81:\penalty0 155--166, 2009.
+
+\bibitem[Li et~al.(2008)Li, Sumner, and Pauly]{li2008global}
+Hao Li, Robert~W Sumner, and Mark Pauly.
+\newblock Global correspondence optimization for non-rigid registration of depth scans.
+\newblock In \emph{Computer graphics forum}, pages 1421--1430. Wiley Online Library, 2008.
+
+\bibitem[Li et~al.(2023{\natexlab{a}})Li, Qiao, Chen, Jatavallabhula, Lin, Jiang, and Gan]{li2023pac}
+Xuan Li, Yi-Ling Qiao, Peter~Yichen Chen, Krishna~Murthy Jatavallabhula, Ming Lin, Chenfanfu Jiang, and Chuang Gan.
+\newblock Pac-nerf: Physics augmented continuum neural radiance fields for geometry-agnostic system identification.
+\newblock \emph{arXiv preprint arXiv:2303.05512}, 2023{\natexlab{a}}.
+
+\bibitem[Li et~al.(2018)Li, Wu, Tedrake, Tenenbaum, and Torralba]{li2018learning}
+Yunzhu Li, Jiajun Wu, Russ Tedrake, Joshua~B Tenenbaum, and Antonio Torralba.
+\newblock Learning particle dynamics for manipulating rigid bodies, deformable objects, and fluids.
+\newblock \emph{arXiv preprint arXiv:1810.01566}, 2018.
+
+\bibitem[Li et~al.(2022)Li, Li, Sitzmann, Agrawal, and Torralba]{li20223d}
+Yunzhu Li, Shuang Li, Vincent Sitzmann, Pulkit Agrawal, and Antonio Torralba.
+\newblock 3d neural scene representations for visuomotor control.
+\newblock In \emph{Conference on Robot Learning}, pages 112--123. PMLR, 2022.
+
+\bibitem[Li et~al.(2021)Li, Niklaus, Snavely, and Wang]{li2021neural}
+Zhengqi Li, Simon Niklaus, Noah Snavely, and Oliver Wang.
+\newblock Neural scene flow fields for space-time view synthesis of dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 6498--6508, 2021.
+
+\bibitem[Li et~al.(2023{\natexlab{b}})Li, Wang, Cole, Tucker, and Snavely]{li2023dynibar}
+Zhengqi Li, Qianqian Wang, Forrester Cole, Richard Tucker, and Noah Snavely.
+\newblock Dynibar: Neural dynamic image-based rendering.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 4273--4284, 2023{\natexlab{b}}.
+
+\bibitem[Lin et~al.(2022)Lin, Wang, Huang, and Held]{lin2022learning}
+Xingyu Lin, Yufei Wang, Zixuan Huang, and David Held.
+\newblock Learning visible connectivity dynamics for cloth smoothing.
+\newblock In \emph{Conference on Robot Learning}, pages 256--266. PMLR, 2022.
+
+\bibitem[Lin et~al.(2024)Lin, Dai, Zhu, and Yao]{lin2024gaussian}
+Youtian Lin, Zuozhuo Dai, Siyu Zhu, and Yao Yao.
+\newblock Gaussian-flow: 4d reconstruction with dynamic 3d gaussian particle.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 21136--21145, 2024.
+
+\bibitem[Luiten et~al.(2024)Luiten, Kopanas, Leibe, and Ramanan]{luiten2024dynamic}
+Jonathon Luiten, Georgios Kopanas, Bastian Leibe, and Deva Ramanan.
+\newblock Dynamic 3d gaussians: Tracking by persistent dynamic view synthesis.
+\newblock In \emph{2024 International Conference on 3D Vision (3DV)}, pages 800--809. IEEE, 2024.
+
+\bibitem[Ma et~al.(2022)Ma, Du, Tenenbaum, Matusik, and Gan]{ma2022risp}
+Pingchuan Ma, Tao Du, Joshua~B Tenenbaum, Wojciech Matusik, and Chuang Gan.
+\newblock Risp: Rendering-invariant state predictor with differentiable simulation and rendering for cross-domain parameter estimation.
+\newblock \emph{arXiv preprint arXiv:2205.05678}, 2022.
+
+\bibitem[Ma et~al.(2023)Ma, Chen, Deng, Tenenbaum, Du, Gan, and Matusik]{ma2023learning}
+Pingchuan Ma, Peter~Yichen Chen, Bolei Deng, Joshua~B Tenenbaum, Tao Du, Chuang Gan, and Wojciech Matusik.
+\newblock Learning neural constitutive laws from motion observations for generalizable pde dynamics.
+\newblock In \emph{International Conference on Machine Learning}, pages 23279--23300. PMLR, 2023.
+
+\bibitem[Macklin(2022)]{warp2022}
+Miles Macklin.
+\newblock Warp: A high-performance python framework for gpu simulation and graphics.
+\newblock \url{https://github.com/nvidia/warp}, 2022.
+\newblock NVIDIA GPU Technology Conference (GTC).
+
+\bibitem[Newcombe et~al.(2015)Newcombe, Fox, and Seitz]{newcombe2015dynamicfusion}
+Richard~A Newcombe, Dieter Fox, and Steven~M Seitz.
+\newblock Dynamicfusion: Reconstruction and tracking of non-rigid scenes in real-time.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and pattern recognition}, pages 343--352, 2015.
+
+\bibitem[Park et~al.(2021{\natexlab{a}})Park, Sinha, Barron, Bouaziz, Goldman, Seitz, and Martin-Brualla]{park2021nerfies}
+Keunhong Park, Utkarsh Sinha, Jonathan~T Barron, Sofien Bouaziz, Dan~B Goldman, Steven~M Seitz, and Ricardo Martin-Brualla.
+\newblock Nerfies: Deformable neural radiance fields.
+\newblock In \emph{Proceedings of the IEEE/CVF international conference on computer vision}, pages 5865--5874, 2021{\natexlab{a}}.
+
+\bibitem[Park et~al.(2021{\natexlab{b}})Park, Sinha, Hedman, Barron, Bouaziz, Goldman, Martin-Brualla, and Seitz]{park2021hypernerf}
+Keunhong Park, Utkarsh Sinha, Peter Hedman, Jonathan~T Barron, Sofien Bouaziz, Dan~B Goldman, Ricardo Martin-Brualla, and Steven~M Seitz.
+\newblock Hypernerf: A higher-dimensional representation for topologically varying neural radiance fields.
+\newblock \emph{arXiv preprint arXiv:2106.13228}, 2021{\natexlab{b}}.
+
+\bibitem[Peng et~al.(2022)Peng, Yan, Liu, Cheng, Guan, Pan, Zhai, and Yang]{peng2021CageNeRF}
+Yicong Peng, Yichao Yan, Shenqi Liu, Yuhao Cheng, Shanyan Guan, Bowen Pan, Guangtao Zhai, and Xiaokang Yang.
+\newblock Cagenerf: Cage-based neural radiance fields for genrenlized 3d deformation and animation.
+\newblock In \emph{Thirty-Sixth Conference on Neural Information Processing Systems}, 2022.
+
+\bibitem[Pfaff et~al.(2020)Pfaff, Fortunato, Sanchez-Gonzalez, and Battaglia]{pfaff2020learning}
+Tobias Pfaff, Meire Fortunato, Alvaro Sanchez-Gonzalez, and Peter Battaglia.
+\newblock Learning mesh-based simulation with graph networks.
+\newblock In \emph{International conference on learning representations}, 2020.
+
+\bibitem[Pumarola et~al.(2021)Pumarola, Corona, Pons-Moll, and Moreno-Noguer]{pumarola2021d}
+Albert Pumarola, Enric Corona, Gerard Pons-Moll, and Francesc Moreno-Noguer.
+\newblock D-nerf: Neural radiance fields for dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 10318--10327, 2021.
+
+\bibitem[Qiao et~al.(2021)Qiao, Liang, Koltun, and Lin]{Qiao2021Differentiable}
+Yi-Ling Qiao, Junbang Liang, Vladlen Koltun, and Ming~C. Lin.
+\newblock Differentiable simulation of soft multi-body systems.
+\newblock In \emph{Conference on Neural Information Processing Systems (NeurIPS)}, 2021.
+
+\bibitem[Qiao et~al.(2022)Qiao, Gao, and Lin]{qiao2022neuphysics}
+Yi-Ling Qiao, Alexander Gao, and Ming Lin.
+\newblock Neuphysics: Editable neural geometry and physics from monocular videos.
+\newblock \emph{Advances in Neural Information Processing Systems}, 35:\penalty0 12841--12854, 2022.
+
+\bibitem[Ren et~al.(2024)Ren, Liu, Zeng, Lin, Li, Cao, Chen, Huang, Chen, Yan, et~al.]{ren2024grounded}
+Tianhe Ren, Shilong Liu, Ailing Zeng, Jing Lin, Kunchang Li, He Cao, Jiayu Chen, Xinyu Huang, Yukang Chen, Feng Yan, et~al.
+\newblock Grounded sam: Assembling open-world models for diverse visual tasks.
+\newblock \emph{arXiv preprint arXiv:2401.14159}, 2024.
+
+\bibitem[Rojas et~al.(2021)Rojas, Sifakis, and Kavan]{rojas2021differentiable}
+Junior Rojas, Eftychios Sifakis, and Ladislav Kavan.
+\newblock Differentiable implicit soft-body physics.
+\newblock \emph{arXiv preprint arXiv:2102.05791}, 2021.
+
+\bibitem[Rombach et~al.(2022)Rombach, Blattmann, Lorenz, Esser, and Ommer]{rombach2022high}
+Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Bj{\"o}rn Ommer.
+\newblock High-resolution image synthesis with latent diffusion models.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 10684--10695, 2022.
+
+\bibitem[Sanchez-Gonzalez et~al.(2020)Sanchez-Gonzalez, Godwin, Pfaff, Ying, Leskovec, and Battaglia]{sanchez2020learning}
+Alvaro Sanchez-Gonzalez, Jonathan Godwin, Tobias Pfaff, Rex Ying, Jure Leskovec, and Peter Battaglia.
+\newblock Learning to simulate complex physics with graph networks.
+\newblock In \emph{International conference on machine learning}, pages 8459--8468. PMLR, 2020.
+
+\bibitem[Sarlin et~al.(2020)Sarlin, DeTone, Malisiewicz, and Rabinovich]{sarlin2020superglue}
+Paul-Edouard Sarlin, Daniel DeTone, Tomasz Malisiewicz, and Andrew Rabinovich.
+\newblock Superglue: Learning feature matching with graph neural networks.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 4938--4947, 2020.
+
+\bibitem[Shi et~al.(2023)Shi, Xu, Clarke, Li, and Wu]{shi2023robocook}
+Haochen Shi, Huazhe Xu, Samuel Clarke, Yunzhu Li, and Jiajun Wu.
+\newblock Robocook: Long-horizon elasto-plastic object manipulation with diverse tools.
+\newblock \emph{arXiv preprint arXiv:2306.14447}, 2023.
+
+\bibitem[Shi et~al.(2024)Shi, Xu, Huang, Li, and Wu]{shi2024robocraft}
+Haochen Shi, Huazhe Xu, Zhiao Huang, Yunzhu Li, and Jiajun Wu.
+\newblock Robocraft: Learning to see, simulate, and shape elasto-plastic objects in 3d with graph networks.
+\newblock \emph{The International Journal of Robotics Research}, 43\penalty0 (4):\penalty0 533--549, 2024.
+
+\bibitem[Sorkine and Alexa(2007)]{sorkine2007rigid}
+Olga Sorkine and Marc Alexa.
+\newblock As-rigid-as-possible surface modeling.
+\newblock In \emph{Symposium on Geometry processing}, pages 109--116. Citeseer, 2007.
+
+\bibitem[Sumner et~al.(2007)Sumner, Schmid, and Pauly]{sumner2007embedded}
+Robert~W Sumner, Johannes Schmid, and Mark Pauly.
+\newblock Embedded deformation for shape manipulation.
+\newblock In \emph{SIGGRAPH}, pages 80--es. 2007.
+
+\bibitem[Tretschk et~al.(2021{\natexlab{a}})Tretschk, Tewari, Golyanik, Zollh{\"o}fer, Lassner, and Theobalt]{tretschk2021non}
+Edgar Tretschk, Ayush Tewari, Vladislav Golyanik, Michael Zollh{\"o}fer, Christoph Lassner, and Christian Theobalt.
+\newblock Non-rigid neural radiance fields: Reconstruction and novel view synthesis of a dynamic scene from monocular video.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on Computer Vision}, pages 12959--12970, 2021{\natexlab{a}}.
+
+\bibitem[Tretschk et~al.(2021{\natexlab{b}})Tretschk, Tewari, Golyanik, Zollh\"{o}fer, Lassner, and Theobalt]{tretschk2021nonrigid}
+Edgar Tretschk, Ayush Tewari, Vladislav Golyanik, Michael Zollh\"{o}fer, Christoph Lassner, and Christian Theobalt.
+\newblock Non-rigid neural radiance fields: Reconstruction and novel view synthesis of a dynamic scene from monocular video.
+\newblock In \emph{{IEEE} International Conference on Computer Vision ({ICCV})}. {IEEE}, 2021{\natexlab{b}}.
+
+\bibitem[Wang et~al.(2015)Wang, Wu, Yin, Ascher, Liu, and Huang]{wang2015deformation}
+Bin Wang, Longhua Wu, KangKang Yin, Uri~M Ascher, Libin Liu, and Hui Huang.
+\newblock Deformation capture and modeling of soft objects.
+\newblock \emph{ACM Trans. Graph.}, 34\penalty0 (4):\penalty0 94--1, 2015.
+
+\bibitem[Wang et~al.(2023)Wang, MacDonald, Jeni, and Lucey]{wang2023flow}
+Chaoyang Wang, Lachlan~Ewen MacDonald, Laszlo~A Jeni, and Simon Lucey.
+\newblock Flow supervision for deformable nerf.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 21128--21137, 2023.
+
+\bibitem[Wu et~al.(2024)Wu, Yi, Fang, Xie, Zhang, Wei, Liu, Tian, and Wang]{wu20244d}
+Guanjun Wu, Taoran Yi, Jiemin Fang, Lingxi Xie, Xiaopeng Zhang, Wei Wei, Wenyu Liu, Qi Tian, and Xinggang Wang.
+\newblock 4d gaussian splatting for real-time dynamic scene rendering.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 20310--20320, 2024.
+
+\bibitem[Wu et~al.(2019)Wu, Yan, Kurutach, Pinto, and Abbeel]{wu2019learning}
+Yilin Wu, Wilson Yan, Thanard Kurutach, Lerrel Pinto, and Pieter Abbeel.
+\newblock Learning to manipulate deformable objects without demonstrations.
+\newblock \emph{arXiv preprint arXiv:1910.13439}, 2019.
+
+\bibitem[Xian et~al.(2021)Xian, Huang, Kopf, and Kim]{xian2021space}
+Wenqi Xian, Jia-Bin Huang, Johannes Kopf, and Changil Kim.
+\newblock Space-time neural irradiance fields for free-viewpoint video.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pages 9421--9431, 2021.
+
+\bibitem[Xiang et~al.(2024)Xiang, Lv, Xu, Deng, Wang, Zhang, Chen, Tong, and Yang]{xiang2024structured}
+Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng Wang, Bowen Zhang, Dong Chen, Xin Tong, and Jiaolong Yang.
+\newblock Structured 3d latents for scalable and versatile 3d generation.
+\newblock \emph{arXiv preprint arXiv:2412.01506}, 2024.
+
+\bibitem[Xie et~al.(2024)Xie, Zong, Qiu, Li, Feng, Yang, and Jiang]{xie2024physgaussian}
+Tianyi Xie, Zeshun Zong, Yuxing Qiu, Xuan Li, Yutao Feng, Yin Yang, and Chenfanfu Jiang.
+\newblock Physgaussian: Physics-integrated 3d gaussians for generative dynamics.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 4389--4398, 2024.
+
+\bibitem[Xu et~al.(2019)Xu, Wu, Zeng, Tenenbaum, and Song]{xu2019densephysnet}
+Zhenjia Xu, Jiajun Wu, Andy Zeng, Joshua~B Tenenbaum, and Shuran Song.
+\newblock Densephysnet: Learning dense physical object representations via multi-step dynamic interactions.
+\newblock \emph{arXiv preprint arXiv:1906.03853}, 2019.
+
+\bibitem[Yang et~al.(2023)Yang, Yang, Pan, and Zhang]{yang2023real}
+Zeyu Yang, Hongye Yang, Zijie Pan, and Li Zhang.
+\newblock Real-time photorealistic dynamic scene representation and rendering with 4d gaussian splatting.
+\newblock \emph{arXiv preprint arXiv:2310.10642}, 2023.
+
+\bibitem[Yang et~al.(2024)Yang, Gao, Zhou, Jiao, Zhang, and Jin]{yang2024deformable}
+Ziyi Yang, Xinyu Gao, Wen Zhou, Shaohui Jiao, Yuqing Zhang, and Xiaogang Jin.
+\newblock Deformable 3d gaussians for high-fidelity monocular dynamic scene reconstruction.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, pages 20331--20341, 2024.
+
+\bibitem[Yu et~al.(2023)Yu, Julin, Milacski, Niinuma, and Jeni]{yu2023dylin}
+Heng Yu, Joel Julin, Zoltan~A Milacski, Koichiro Niinuma, and Laszlo~A Jeni.
+\newblock Dylin: Making light field networks dynamic.
+\newblock \emph{arXiv preprint arXiv:2303.14243}, 2023.
+
+\bibitem[Yu et~al.(2024)Yu, Julin, Milacski, Niinuma, and Jeni]{yu2024cogs}
+Heng Yu, Joel Julin, Zolt{\'a}n~{\'A} Milacski, Koichiro Niinuma, and L{\'a}szl{\'o}~A Jeni.
+\newblock Cogs: Controllable gaussian splatting.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, pages 21624--21633, 2024.
+
+\bibitem[Zhang et~al.(2024{\natexlab{a}})Zhang, Zhang, and Li]{zhang2024dynamic}
+Mingtong Zhang, Kaifeng Zhang, and Yunzhu Li.
+\newblock Dynamic 3d gaussian tracking for graph-based neural dynamics modeling.
+\newblock \emph{arXiv preprint arXiv:2410.18912}, 2024{\natexlab{a}}.
+
+\bibitem[Zhang et~al.(2018)Zhang, Isola, Efros, Shechtman, and Wang]{zhang2018perceptual}
+Richard Zhang, Phillip Isola, Alexei~A Efros, Eli Shechtman, and Oliver Wang.
+\newblock The unreasonable effectiveness of deep features as a perceptual metric.
+\newblock In \emph{CVPR}, 2018.
+
+\bibitem[Zhang et~al.(2024{\natexlab{b}})Zhang, Yu, Wu, Feng, Zheng, Snavely, Wu, and Freeman]{zhang2024physdreamer}
+Tianyuan Zhang, Hong-Xing Yu, Rundi Wu, Brandon~Y Feng, Changxi Zheng, Noah Snavely, Jiajun Wu, and William~T Freeman.
+\newblock Physdreamer: Physics-based interaction with 3d objects via video generation.
+\newblock In \emph{European Conference on Computer Vision}, pages 388--406. Springer, 2024{\natexlab{b}}.
+
+\bibitem[Zhong et~al.(2024)Zhong, Yu, Wu, and Li]{zhong2024reconstruction}
+Licheng Zhong, Hong-Xing Yu, Jiajun Wu, and Yunzhu Li.
+\newblock Reconstruction and simulation of elastic objects with spring-mass 3d gaussians.
+\newblock In \emph{European Conference on Computer Vision}, pages 407--423. Springer, 2024.
+
+\end{thebibliography}

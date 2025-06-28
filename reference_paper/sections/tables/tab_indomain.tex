@@ -1,0 +1,21 @@
+\begin{table*}[ht]
+\caption{\small
+    \textbf{Quantitative Results on Reconstruction \& Resimulation and Future Prediction.} We compare the performance of our method with two prior work, GS-Dynamics~\cite{zhang2024dynamic} and Spring-Gaus~\cite{zhong2024reconstruction}, on two tasks: reconstruction \& resimulation and future prediction. Our PhysTwin framework consistently outperforms the baselines across all metrics.}
+\centering
+\vspace{-5pt}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{@{} l rr rr rr rr rr rr @{}}
+\toprule
+Task &  \multicolumn{6}{c}{Reconstruction \& Resimulation} & \multicolumn{6}{c}{Future Prediction} \\
+\cmidrule(lr){2-7} \cmidrule(lr){8-13}
+Method & CD $\downarrow$ & Track Error $\downarrow$ & IoU \% $\uparrow$ & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ &  CD $\downarrow$ & Track Error $\downarrow$ & IoU \% $\uparrow$ & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\midrule
+Spring-Gaus~\cite{zhong2024reconstruction} & 0.041 & 0.050 & 57.6 & 23.445 & 0.928 & 0.102 & 0.062 & 0.094 & 46.4 & 22.488 & 0.924 & 0.113 \\
+GS-Dynamics~\cite{zhang2024dynamic} & 0.014 & 0.022 & 72.1 & 26.260 & 0.940 & 0.052 & 0.041 & 0.070 & 49.8 & 22.540 & 0.924 & 0.097 \\
+PhysTwin (\textbf{Ours}) & \textbf{0.005} & \textbf{0.009} & \textbf{84.4} & \textbf{28.214} & \textbf{0.945} & \textbf{0.034} & \textbf{0.012} & \textbf{0.022} & \textbf{72.5} & \textbf{25.617} & \textbf{0.941} & \textbf{0.055} \\
+\bottomrule
+\end{tabular}
+}
+\vspace{-10pt}
+\label{tab:quant_indomain}
+\end{table*}

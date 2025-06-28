@@ -1,0 +1,20 @@
+\begin{table*}[ht]
+\caption{\small
+    \textbf{Ablations of Our Sparse-to-Dense Optimization.} To better understand our optimization process, we conduct ablation experiments comparing results with only zero-order optimization or first-order optimization. The results demonstrate that our sparse-to-dense optimization strategy is effective in obtaining the most accurate physical parameters.
+}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{@{} l rr rr rr rr rr rr @{}}
+\toprule
+Task &  \multicolumn{6}{c}{Reconstruction \& Resimulation} & \multicolumn{6}{c}{Future Prediction} \\
+\cmidrule(lr){2-7} \cmidrule(lr){8-13}
+Method & CD $\downarrow$ & Track Error $\downarrow$ & IoU \% $\uparrow$ & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ &  CD $\downarrow$ & Track Error $\downarrow$ & IoU \% $\uparrow$ & PSNR $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\midrule
+Zero-order Only & 0.007 & 0.012 & 80.2 & 27.409 & 0.943 & 0.039 & 0.014 & 0.025 & 69.2 & 25.008 & 0.938 & 0.061 \\
+First-order Only & 0.008 & 0.012 & 82.7 & 27.913 & 0.944 & 0.037 & 0.019 & 0.034 & 65.7 & 24.572 & 0.936 & 0.067 \\
+PhysTwin (\textbf{Ours}) & \textbf{0.005} & \textbf{0.009} & \textbf{84.4} & \textbf{28.214} & \textbf{0.945} & \textbf{0.034} & \textbf{0.012} & \textbf{0.022} & \textbf{72.5} & \textbf{25.617} & \textbf{0.941} & \textbf{0.055} \\
+\bottomrule
+\end{tabular}
+}
+\label{tab:quant_ablation}
+\end{table*}
