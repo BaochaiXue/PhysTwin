@@ -10,6 +10,7 @@ import os
 import pickle
 import json
 
+
 def set_all_seeds(seed):
     random.seed(seed)
     np.random.seed(seed)
@@ -45,6 +46,20 @@ if __name__ == "__main__":
     parser.add_argument(
         "--inv_ctrl", action="store_true", help="invert horizontal control direction"
     )
+    opt_group = parser.add_mutually_exclusive_group()
+    opt_group.add_argument(
+        "--use_optimal",
+        dest="use_optimal",
+        action="store_true",
+        help="(default) load optimal_params.pkl",
+    )
+    opt_group.add_argument(
+        "--no_use_optimal",
+        dest="use_optimal",
+        action="store_false",
+        help="run from YAML only",
+    )
+    parser.set_defaults(use_optimal=True)
     args = parser.parse_args()
 
     base_path = args.base_path
@@ -58,14 +73,20 @@ if __name__ == "__main__":
     base_dir = f"./temp_experiments/{case_name}"
 
     # Read the first-satage optimized parameters to set the indifferentiable parameters
-    optimal_path = f"./experiments_optimization/{case_name}/optimal_params.pkl"
-    logger.info(f"Load optimal parameters from: {optimal_path}")
-    assert os.path.exists(
-        optimal_path
-    ), f"{case_name}: Optimal parameters not found: {optimal_path}"
-    with open(optimal_path, "rb") as f:
-        optimal_params = pickle.load(f)
-    cfg.set_optimal_params(optimal_params)
+    if args.use_optimal:
+        optimal_path = f"./experiments_optimization/{args.case_name}/optimal_params.pkl"
+        logger.info("Loading optimal parameters from: %s", optimal_path)
+
+        if not os.path.exists(optimal_path):
+            raise FileNotFoundError(
+                f"{args.case_name}: Optimal parameters not found at {optimal_path}"
+            )
+
+        with open(optimal_path, "rb") as f:
+            optimal_params = pickle.load(f)
+        cfg.set_optimal_params(optimal_params)
+    else:
+        logger.info("Warning: Skipping optimal_params.pkl — using YAML values only.")
 
     # Set the intrinsic and extrinsic parameters for visualization
     with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:
