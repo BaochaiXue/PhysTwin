@@ -7,7 +7,7 @@ drag_damping: 3
 base_lr: 1e-3
 iterations: 200
 vis_interval: 20
-init_spring_Y: 3e4
+init_spring_Y: 1e2 #change from 3e4 to 1e2
 collide_elas: 0.5
 collide_fric: 0.3
 collide_object_elas: 0.7
