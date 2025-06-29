@@ -73,20 +73,17 @@ if __name__ == "__main__":
     base_dir = f"./temp_experiments/{case_name}"
 
     # Read the first-satage optimized parameters to set the indifferentiable parameters
-    if args.use_optimal:
-        optimal_path = f"./experiments_optimization/{args.case_name}/optimal_params.pkl"
-        logger.info("Loading optimal parameters from: %s", optimal_path)
+    optimal_path = f"./experiments_optimization/{args.case_name}/optimal_params.pkl"
+    logger.info(f"Loading optimal parameters from: {optimal_path}")
 
-        if not os.path.exists(optimal_path):
-            raise FileNotFoundError(
-                f"{args.case_name}: Optimal parameters not found at {optimal_path}"
-            )
+    if not os.path.exists(optimal_path):
+        raise FileNotFoundError(
+            f"{args.case_name}: Optimal parameters not found at {optimal_path}"
+        )
 
-        with open(optimal_path, "rb") as f:
-            optimal_params = pickle.load(f)
-        cfg.set_optimal_params(optimal_params)
-    else:
-        logger.info("Warning: Skipping optimal_params.pkl — using YAML values only.")
+    with open(optimal_path, "rb") as f:
+        optimal_params = pickle.load(f)
+    cfg.set_optimal_params(optimal_params, use_global_spring_Y=args.use_optimal)
 
     # Set the intrinsic and extrinsic parameters for visualization
     with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:
