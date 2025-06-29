@@ -1,4 +1,6 @@
 # Experimental feature to approximate the materials in the spring-mass model.
+from __future__ import annotations
+
 from qqtt import InvPhyTrainerWarp
 from qqtt.utils import logger, cfg
 import random
@@ -21,7 +23,7 @@ def set_all_seeds(seed: int) -> None:
     torch.backends.cudnn.benchmark = False
 
 
-seed = 42
+seed: int = 42
 set_all_seeds(seed)
 
 if __name__ == "__main__":
@@ -57,18 +59,18 @@ if __name__ == "__main__":
     assert os.path.exists(
         optimal_path
     ), f"{case_name}: Optimal parameters not found: {optimal_path}"
-    with open(optimal_path, "rb") as f:
-        optimal_params = pickle.load(f)
+    with open(optimal_path, "rb") as opt_file:
+        optimal_params = pickle.load(opt_file)
     cfg.set_optimal_params(optimal_params)
 
     # Set the intrinsic and extrinsic parameters for visualization
-    with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:
-        c2ws = pickle.load(f)
+    with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as calibrate_file:
+        c2ws = pickle.load(calibrate_file)
     w2cs = [np.linalg.inv(c2w) for c2w in c2ws]
     cfg.c2ws = np.array(c2ws)
     cfg.w2cs = np.array(w2cs)
-    with open(f"{base_path}/{case_name}/metadata.json", "r") as f:
-        data = json.load(f)
+    with open(f"{base_path}/{case_name}/metadata.json", "r") as metadata_file:
+        data = json.load(metadata_file)
     cfg.intrinsics = np.array(data["intrinsics"])
     cfg.WH = data["WH"]
     cfg.overlay_path = f"{base_path}/{case_name}/color"

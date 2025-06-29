@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import os
 from argparse import ArgumentParser
 import time
 import logging
 import json
 import glob
+from types import TracebackType
 
 parser = ArgumentParser()
 parser.add_argument(
@@ -18,21 +21,21 @@ parser.add_argument("--shape_prior", action="store_true", default=False)
 args = parser.parse_args()
 
 # Set the debug flags
-PROCESS_SEG = True
-PROCESS_SHAPE_PRIOR = True
-PROCESS_TRACK = True
-PROCESS_3D = True
-PROCESS_ALIGN = True
-PROCESS_FINAL = True
+PROCESS_SEG: bool = True
+PROCESS_SHAPE_PRIOR: bool = True
+PROCESS_TRACK: bool = True
+PROCESS_3D: bool = True
+PROCESS_ALIGN: bool = True
+PROCESS_FINAL: bool = True
 
-base_path = args.base_path
-case_name = args.case_name
-category = args.category
-TEXT_PROMPT = f"{category}.hand"
-CONTROLLER_NAME = "hand"
-SHAPE_PRIOR = args.shape_prior
+base_path: str = args.base_path
+case_name: str = args.case_name
+category: str = args.category
+TEXT_PROMPT: str = f"{category}.hand"
+CONTROLLER_NAME: str = "hand"
+SHAPE_PRIOR: bool = args.shape_prior
 
-logger = None
+logger: logging.Logger | None = None
 
 
 def setup_logger(log_file: str = "timer.log") -> None:
@@ -67,6 +70,7 @@ class Timer:
 
     def __enter__(self) -> None:
         self.start_time = time.time()
+        assert logger is not None
         logger.info(
             f"!!!!!!!!!!!! {self.task_name}: Processing {case_name} !!!!!!!!!!!!"
         )
@@ -75,9 +79,10 @@ class Timer:
         self,
         exc_type: type | None,
         exc_val: BaseException | None,
-        exc_tb,
+        exc_tb: TracebackType | None,
     ) -> None:
         elapsed_time = time.time() - self.start_time
+        assert logger is not None
         logger.info(
             f"!!!!!!!!!!! Time for {self.task_name}: {elapsed_time:.2f} sec !!!!!!!!!!!!"
         )
@@ -169,7 +174,7 @@ if PROCESS_FINAL:
 
     # Save the train test split
     frame_len = len(glob.glob(f"{base_path}/{case_name}/pcd/*.npz"))
-    split = {}
+    split: dict[str, int | list[int]] = {}
     split["frame_len"] = frame_len
     split["train"] = [0, int(frame_len * 0.7)]
     split["test"] = [int(frame_len * 0.7), frame_len]
