@@ -9,7 +9,7 @@ import os
 import pickle
 import json
 
-def set_all_seeds(seed):
+def set_all_seeds(seed: int) -> None:
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)

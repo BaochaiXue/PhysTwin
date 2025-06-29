@@ -35,7 +35,7 @@ SHAPE_PRIOR = args.shape_prior
 logger = None
 
 
-def setup_logger(log_file="timer.log"):
+def setup_logger(log_file: str = "timer.log") -> None:
     global logger 
 
     if logger is None:
@@ -56,22 +56,27 @@ def setup_logger(log_file="timer.log"):
 setup_logger()
 
 
-def existDir(dir_path):
+def existDir(dir_path: str) -> None:
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
 
 class Timer:
-    def __init__(self, task_name):
+    def __init__(self, task_name: str) -> None:
         self.task_name = task_name
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         self.start_time = time.time()
         logger.info(
             f"!!!!!!!!!!!! {self.task_name}: Processing {case_name} !!!!!!!!!!!!"
         )
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: type | None,
+        exc_val: BaseException | None,
+        exc_tb,
+    ) -> None:
         elapsed_time = time.time() - self.start_time
         logger.info(
             f"!!!!!!!!!!! Time for {self.task_name}: {elapsed_time:.2f} sec !!!!!!!!!!!!"

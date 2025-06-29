@@ -15,15 +15,15 @@ if not os.path.exists("results"):
     os.makedirs("results")
 
 def evaluate_prediction(
-    start_frame,
-    end_frame,
-    vertices,
-    object_points,
-    object_visibilities,
-    object_motions_valid,
-    num_original_points,
-    num_surface_points,
-):
+    start_frame: int,
+    end_frame: int,
+    vertices: torch.Tensor | np.ndarray,
+    object_points: torch.Tensor | np.ndarray,
+    object_visibilities: torch.Tensor | np.ndarray,
+    object_motions_valid: torch.Tensor | np.ndarray,
+    num_original_points: int,
+    num_surface_points: int,
+) -> dict[str, int | float]:
     chamfer_errors = []
 
     if not isinstance(vertices, torch.Tensor):
