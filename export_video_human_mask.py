@@ -4,7 +4,7 @@ import glob
 base_path = "./data/different_types"
 output_path = "./data/different_types_human_mask"
 
-def existDir(dir_path):
+def existDir(dir_path: str) -> None:
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 

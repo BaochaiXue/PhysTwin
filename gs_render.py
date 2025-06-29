@@ -33,7 +33,18 @@ import pytorch3d
 import pytorch3d.ops as ops
 
 
-def render_set(model_path, name, iteration, views, gaussians, pipeline, background, train_test_exp, separate_sh, disable_sh=False):
+def render_set(
+    model_path: str,
+    name: str,
+    iteration: int,
+    views: list,
+    gaussians: GaussianModel,
+    pipeline: PipelineParams,
+    background: torch.Tensor,
+    train_test_exp: bool,
+    separate_sh: bool,
+    disable_sh: bool = False,
+) -> None:
     render_path = os.path.join(model_path, name, "ours_{}".format(iteration), "renders")
     gts_path = os.path.join(model_path, name, "ours_{}".format(iteration), "gt")
 
@@ -63,7 +74,15 @@ def render_set(model_path, name, iteration, views, gaussians, pipeline, backgrou
         torchvision.utils.save_image(gt, os.path.join(gts_path, '{0:05d}'.format(idx) + ".png"))
 
 
-def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParams, skip_train : bool, skip_test : bool, separate_sh: bool, remove_gaussians: bool = False):
+def render_sets(
+    dataset: ModelParams,
+    iteration: int,
+    pipeline: PipelineParams,
+    skip_train: bool,
+    skip_test: bool,
+    separate_sh: bool,
+    remove_gaussians: bool = False,
+) -> None:
     with torch.no_grad():
         gaussians = GaussianModel(dataset.sh_degree)
         scene = Scene(dataset, gaussians, load_iteration=iteration, shuffle=False)
@@ -102,7 +121,16 @@ def render_sets(dataset : ModelParams, iteration : int, pipeline : PipelineParam
             render_set(dataset.model_path, "test", scene.loaded_iter, scene.getTestCameras(), gaussians, pipeline, background, dataset.train_test_exp, separate_sh, disable_sh=dataset.disable_sh)
 
 
-def get_ray_directions(H, W, K, device='cuda', random=False, return_uv=False, flatten=True, anti_aliasing_factor=1.0):
+def get_ray_directions(
+    H: int,
+    W: int,
+    K: torch.Tensor,
+    device: str = "cuda",
+    random: bool = False,
+    return_uv: bool = False,
+    flatten: bool = True,
+    anti_aliasing_factor: float = 1.0,
+) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
     """
     Get ray directions for all pixels in camera coordinate [right down front].
     Reference: https://www.scratchapixel.com/lessons/3d-basic-rendering/
@@ -143,7 +171,9 @@ def get_ray_directions(H, W, K, device='cuda', random=False, return_uv=False, fl
     return directions
 
 
-def remove_gaussians_with_mask(gaussians, views):
+def remove_gaussians_with_mask(
+    gaussians: GaussianModel, views: list
+) -> GaussianModel:
     gaussians_xyz = gaussians._xyz.detach()
     gaussians_view_counter = torch.zeros(gaussians_xyz.shape[0], dtype=torch.int32, device='cuda')
     with torch.no_grad():
@@ -193,7 +223,9 @@ def remove_gaussians_with_mask(gaussians, views):
     return new_gaussians
 
 
-def remove_gaussians_with_low_opacity(gaussians, opacity_threshold=0.1):
+def remove_gaussians_with_low_opacity(
+    gaussians: GaussianModel, opacity_threshold: float = 0.1
+) -> GaussianModel:
 
     opacity = gaussians.get_opacity.squeeze(-1)
     mask3d = opacity > opacity_threshold
@@ -210,7 +242,11 @@ def remove_gaussians_with_low_opacity(gaussians, opacity_threshold=0.1):
     return new_gaussians
 
 
-def remove_gaussians_with_point_mesh_distance(gaussians, mesh_sampled_points, dist_threshold=0.1):
+def remove_gaussians_with_point_mesh_distance(
+    gaussians: GaussianModel,
+    mesh_sampled_points: torch.Tensor,
+    dist_threshold: float = 0.1,
+) -> GaussianModel:
     '''
     Remove gaussians that are far from the mesh
 

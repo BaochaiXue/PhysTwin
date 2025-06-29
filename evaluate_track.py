@@ -10,7 +10,14 @@ prediction_path = "experiments"
 output_file = "results/final_track.csv"
 
 
-def evaluate_prediction(start_frame, end_frame, vertices, gt_track_3d, idx, mask):
+def evaluate_prediction(
+    start_frame: int,
+    end_frame: int,
+    vertices: np.ndarray,
+    gt_track_3d: np.ndarray,
+    idx: np.ndarray,
+    mask: np.ndarray,
+) -> float:
     track_errors = []
     for frame_idx in range(start_frame, end_frame):
         # Get the new mask and see

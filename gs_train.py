@@ -40,7 +40,16 @@ try:
 except:
     SPARSE_ADAM_AVAILABLE = False
 
-def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoint_iterations, checkpoint, debug_from):
+def training(
+    dataset: ModelParams,
+    opt: OptimizationParams,
+    pipe: PipelineParams,
+    testing_iterations: list[int],
+    saving_iterations: list[int],
+    checkpoint_iterations: list[int],
+    checkpoint: str | None,
+    debug_from: int,
+) -> None:
 
     if not SPARSE_ADAM_AVAILABLE and opt.optimizer_type == "sparse_adam":
         sys.exit(f"Trying to use sparse adam but it is not installed, please install the correct rasterizer using pip install [3dgs_accel].")
@@ -257,7 +266,7 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
                 print("\n[ITER {}] Saving Checkpoint".format(iteration))
                 torch.save((gaussians.capture(), iteration), scene.model_path + "/chkpnt" + str(iteration) + ".pth")
 
-def prepare_output_and_logger(args):    
+def prepare_output_and_logger(args: Namespace) -> SummaryWriter | None:
     if not args.model_path:
         if os.getenv('OAR_JOB_ID'):
             unique_str=os.getenv('OAR_JOB_ID')
@@ -279,7 +288,19 @@ def prepare_output_and_logger(args):
         print("Tensorboard not available: not logging progress")
     return tb_writer
 
-def training_report(tb_writer, iteration, Ll1, loss, l1_loss, elapsed, testing_iterations, scene : Scene, renderFunc, renderArgs, train_test_exp):
+def training_report(
+    tb_writer: SummaryWriter | None,
+    iteration: int,
+    Ll1: torch.Tensor,
+    loss: torch.Tensor,
+    l1_loss: torch.Tensor,
+    elapsed: float,
+    testing_iterations: list[int],
+    scene: Scene,
+    renderFunc,
+    renderArgs,
+    train_test_exp: bool,
+) -> None:
     if tb_writer:
         tb_writer.add_scalar('train_loss_patches/l1_loss', Ll1.item(), iteration)
         tb_writer.add_scalar('train_loss_patches/total_loss', loss.item(), iteration)

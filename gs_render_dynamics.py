@@ -48,16 +48,16 @@ import pickle
 
 
 def render_set(
-    output_path,
-    name,
-    views,
-    gaussians_list,
-    pipeline,
-    background,
-    train_test_exp,
-    separate_sh,
-    disable_sh=False,
-):
+    output_path: str,
+    name: str,
+    views: list,
+    gaussians_list: list,
+    pipeline: PipelineParams,
+    background: torch.Tensor,
+    train_test_exp: bool,
+    separate_sh: bool,
+    disable_sh: bool = False,
+) -> None:
 
     render_path = os.path.join(output_path, name)
     makedirs(render_path, exist_ok=True)
@@ -114,7 +114,7 @@ def render_sets(
     remove_gaussians: bool = False,
     name: str = "dynamic",
     output_dir: str = "./gaussian_output_dynamic",
-):
+) -> None:
     with torch.no_grad():
         output_path = output_dir
 
@@ -222,7 +222,15 @@ def render_sets(
         )
 
 
-def rollout(xyz_0, rgb_0, quat_0, opa_0, ctrl_pts, n_steps, device="cuda"):
+def rollout(
+    xyz_0: torch.Tensor,
+    rgb_0: torch.Tensor,
+    quat_0: torch.Tensor,
+    opa_0: torch.Tensor,
+    ctrl_pts: torch.Tensor,
+    n_steps: int,
+    device: str = "cuda",
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     # store results
     xyz = xyz_0.cpu()[None].repeat(n_steps, 1, 1)  # (n_steps, n_gaussians, 3)
     rgb = rgb_0.cpu()[None].repeat(n_steps, 1, 1)  # (n_steps, n_gaussians, 3)

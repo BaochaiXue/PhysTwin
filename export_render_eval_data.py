@@ -7,7 +7,7 @@ output_path = "./data/render_eval_data"
 CONTROLLER_NAME = "hand"
 
 
-def existDir(dir_path):
+def existDir(dir_path: str) -> None:
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
