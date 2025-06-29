@@ -7,7 +7,7 @@ from atomics import atomicview, MemoryOrder, UINT
 @dataclass
 class ArraySpec:
     name: str
-    shape: Tuple[int]
+    shape: tuple[int]
     dtype: np.dtype
 
 

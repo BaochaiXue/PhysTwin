@@ -90,7 +90,7 @@ class FileFormatter(Formatter):
 @singleton
 class ExpLogger(logging.Logger):
 
-    def __init__(self, name: Optional[str] = None):
+    def __init__(self, name: str | None = None):
         if name is None:
             name = time.strftime("%Y_%m%d_%H%M_%S", time.localtime(time.time()))
         super().__init__(name)
@@ -111,7 +111,7 @@ class ExpLogger(logging.Logger):
         self.removeHandler(self.stearmhandler)
 
     @master_only
-    def set_log_file(self, path: str, name: Optional[str] = None):
+    def set_log_file(self, path: str, name: str | None = None):
         if not os.path.exists(path):
             os.makedirs(path)
         file_path = os.path.join(

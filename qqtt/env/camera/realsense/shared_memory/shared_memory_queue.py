@@ -15,7 +15,7 @@ class SharedMemoryQueue:
 
     def __init__(self,
             shm_manager: SharedMemoryManager,
-            array_specs: List[ArraySpec],
+            array_specs: list[ArraySpec],
             buffer_size: int
         ):
 
@@ -43,7 +43,7 @@ class SharedMemoryQueue:
     @classmethod
     def create_from_examples(cls, 
             shm_manager: SharedMemoryManager,
-            examples: Dict[str, Union[np.ndarray, numbers.Number]], 
+            examples: dict[str, np.ndarray | numbers.Number], 
             buffer_size: int
             ):
         specs = list()
@@ -87,7 +87,7 @@ class SharedMemoryQueue:
     def clear(self):
         self.read_counter.store(self.write_counter.load())
     
-    def put(self, data: Dict[str, Union[np.ndarray, numbers.Number]]):
+    def put(self, data: dict[str, np.ndarray | numbers.Number]):
         read_count = self.read_counter.load()
         write_count = self.write_counter.load()
         n_data = write_count - read_count
@@ -108,7 +108,7 @@ class SharedMemoryQueue:
         # update idx
         self.write_counter.add(1)
     
-    def get(self, out=None) -> Dict[str, np.ndarray]:
+    def get(self, out=None) -> dict[str, np.ndarray]:
         write_count = self.write_counter.load()
         read_count = self.read_counter.load()
         n_data = write_count - read_count
@@ -127,7 +127,7 @@ class SharedMemoryQueue:
         self.read_counter.add(1)
         return out
 
-    def get_k(self, k, out=None) -> Dict[str, np.ndarray]:
+    def get_k(self, k, out=None) -> dict[str, np.ndarray]:
         write_count = self.write_counter.load()
         read_count = self.read_counter.load()
         n_data = write_count - read_count
@@ -139,7 +139,7 @@ class SharedMemoryQueue:
         self.read_counter.add(k)
         return out
 
-    def get_all(self, out=None) -> Dict[str, np.ndarray]:
+    def get_all(self, out=None) -> dict[str, np.ndarray]:
         write_count = self.write_counter.load()
         read_count = self.read_counter.load()
         n_data = write_count - read_count
@@ -150,7 +150,7 @@ class SharedMemoryQueue:
         self.read_counter.add(n_data)
         return out
     
-    def _get_k_impl(self, k, read_count, out=None) -> Dict[str, np.ndarray]:
+    def _get_k_impl(self, k, read_count, out=None) -> dict[str, np.ndarray]:
         if out is None:
             out = self._allocate_empty(k)
 

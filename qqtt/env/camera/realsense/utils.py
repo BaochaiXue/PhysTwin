@@ -6,13 +6,13 @@ import numpy as np
 
 
 def get_accumulate_timestamp_idxs(
-    timestamps: List[float],  
+    timestamps: list[float],  
     start_time: float, 
     dt: float, 
     eps:float=1e-5,
-    next_global_idx: Optional[int]=0,
+    next_global_idx: int | None=0,
     allow_negative=False
-    ) -> Tuple[List[int], List[int], int]:
+    ) -> tuple[list[int], list[int], int]:
     """
     For each dt window, choose the first timestamp in the window.
     Assumes timestamps sorted. One timestamp might be chosen multiple times due to dropped frames.
@@ -44,8 +44,8 @@ def get_accumulate_timestamp_idxs(
 
 
 def align_timestamps(    
-        timestamps: List[float], 
-        target_global_idxs: List[int], 
+        timestamps: list[float], 
+        target_global_idxs: list[int], 
         start_time: float, 
         dt: float, 
         eps:float=1e-5):
@@ -114,7 +114,7 @@ class TimestampObsAccumulator:
             return np.array([])
         return self.start_time + np.arange(len(self)) * self.dt
 
-    def put(self, data: Dict[str, np.ndarray], timestamps: np.ndarray):
+    def put(self, data: dict[str, np.ndarray], timestamps: np.ndarray):
         """
         data:
             key: T,*

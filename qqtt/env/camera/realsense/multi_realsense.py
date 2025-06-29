@@ -1,6 +1,7 @@
 # Description: MultiRealsense class for multiple RealSense cameras, based on code from Diffusion Policy
 
-from typing import List, Optional, Union, Dict, Callable
+from typing import List, Optional, Union, Dict
+from collections.abc import Callable
 import numbers
 import time
 from multiprocessing.managers import SharedMemoryManager
@@ -10,8 +11,8 @@ from .single_realsense import SingleRealsense
 
 class MultiRealsense:
     def __init__(self,
-        serial_numbers: Optional[List[str]]=None,
-        shm_manager: Optional[SharedMemoryManager]=None,
+        serial_numbers: list[str] | None=None,
+        shm_manager: SharedMemoryManager | None=None,
         resolution=(1280,720),
         capture_fps=30,
         put_fps=None,
@@ -21,9 +22,9 @@ class MultiRealsense:
         process_depth=False,
         enable_infrared=False,
         get_max_k=30,
-        advanced_mode_config: Optional[Union[dict, List[dict]]]=None,
-        transform: Optional[Union[Callable[[Dict], Dict], List[Callable]]]=None,
-        vis_transform: Optional[Union[Callable[[Dict], Dict], List[Callable]]]=None,
+        advanced_mode_config: dict | list[dict] | None=None,
+        transform: Callable[[dict], dict] | list[Callable] | None=None,
+        vis_transform: Callable[[dict], dict] | list[Callable] | None=None,
         verbose=False
         ):
         if shm_manager is None:
@@ -104,14 +105,14 @@ class MultiRealsense:
 
     def start_wait(self):
         for camera in self.cameras.values():
-            print('processing camera {}'.format(camera.serial_number))
+            print(f'processing camera {camera.serial_number}')
             camera.start_wait()
 
     def stop_wait(self):
         for camera in self.cameras.values():
             camera.join()
     
-    def get(self, k=None, index=None, out=None) -> Dict[int, Dict[str, np.ndarray]]:
+    def get(self, k=None, index=None, out=None) -> dict[int, dict[str, np.ndarray]]:
         """
         Return order T,H,W,C
         {
