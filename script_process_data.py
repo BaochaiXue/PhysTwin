@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import os
 import csv
 
-base_path = "./data/different_types"
+base_path: str = "./data/different_types"
 
 os.system("rm -f timer.log")
 

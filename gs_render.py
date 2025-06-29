@@ -9,8 +9,11 @@
 # For inquiries contact  george.drettakis@inria.fr
 #
 
+from __future__ import annotations
+
 import torch
 from gaussian_splatting.scene import Scene
+from gaussian_splatting.scene.cameras import Camera
 import os
 from tqdm import tqdm
 from os import makedirs
@@ -20,6 +23,7 @@ from gaussian_splatting.utils.general_utils import safe_state
 from argparse import ArgumentParser
 from gaussian_splatting.arguments import ModelParams, PipelineParams, get_combined_args
 from gaussian_splatting.gaussian_renderer import GaussianModel
+from typing import Sequence
 try:
     from diff_gaussian_rasterization import SparseGaussianAdam
     SPARSE_ADAM_AVAILABLE = True
@@ -37,7 +41,7 @@ def render_set(
     model_path: str,
     name: str,
     iteration: int,
-    views: list,
+    views: Sequence[Camera],
     gaussians: GaussianModel,
     pipeline: PipelineParams,
     background: torch.Tensor,
@@ -172,7 +176,7 @@ def get_ray_directions(
 
 
 def remove_gaussians_with_mask(
-    gaussians: GaussianModel, views: list
+    gaussians: GaussianModel, views: Sequence[Camera]
 ) -> GaussianModel:
     gaussians_xyz = gaussians._xyz.detach()
     gaussians_view_counter = torch.zeros(gaussians_xyz.shape[0], dtype=torch.int32, device='cuda')

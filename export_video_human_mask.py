@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import os
 import glob
 
-base_path = "./data/different_types"
-output_path = "./data/different_types_human_mask"
+base_path: str = "./data/different_types"
+output_path: str = "./data/different_types_human_mask"
 
 def existDir(dir_path: str) -> None:
     if not os.path.exists(dir_path):

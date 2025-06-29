@@ -1,20 +1,19 @@
+from __future__ import annotations
+
 import glob
 import json
 import numpy as np
 import cv2
 
-base_path = "./data/different_types"
-prediction_dir = "./gaussian_output_dynamic_white"
-human_mask_path = (
-    "./data/different_types_human_mask"
-)
-object_mask_path = (
-    "./data/render_eval_data"
-)
+base_path: str = "./data/different_types"
+prediction_dir: str = "./gaussian_output_dynamic_white"
+human_mask_path: str = "./data/different_types_human_mask"
+object_mask_path: str = "./data/render_eval_data"
 
-height, width = 480, 848
-FPS = 30
-alpha = 0.7
+height: int = 480
+width: int = 848
+FPS: int = 30
+alpha: float = 0.7
 
 dir_names = glob.glob(f"{base_path}/*")
 for dir_name in dir_names:

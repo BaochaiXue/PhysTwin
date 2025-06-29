@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 import pickle
 import glob
 import csv
 import json
 import numpy as np
+from typing import TextIO
 from scipy.spatial import KDTree
 
-base_path = "./data/different_types"
-prediction_path = "experiments"
-output_file = "results/final_track.csv"
+base_path: str = "./data/different_types"
+prediction_path: str = "experiments"
+output_file: str = "results/final_track.csv"
 
 
 def evaluate_prediction(
@@ -18,7 +21,7 @@ def evaluate_prediction(
     idx: np.ndarray,
     mask: np.ndarray,
 ) -> float:
-    track_errors = []
+    track_errors: list[float] = []
     for frame_idx in range(start_frame, end_frame):
         # Get the new mask and see
         new_mask = ~np.isnan(gt_track_3d[frame_idx][mask]).any(axis=1)
@@ -30,10 +33,10 @@ def evaluate_prediction(
             track_error = np.mean(np.linalg.norm(pred_x - gt_track_points, axis=1))
         
         track_errors.append(track_error)
-    return np.mean(track_errors)
+    return float(np.mean(track_errors))
 
 
-file = open(output_file, mode="w", newline="", encoding="utf-8")
+file: TextIO = open(output_file, mode="w", newline="", encoding="utf-8")
 writer = csv.writer(file)
 writer.writerow(
     [
@@ -50,17 +53,17 @@ for dir_name in dir_names:
     #     continue
     print(f"Processing {case_name}!!!!!!!!!!!!!!!")
 
-    with open(f"{base_path}/{case_name}/split.json", "r") as f:
-        split = json.load(f)
+    with open(f"{base_path}/{case_name}/split.json", "r") as split_file:
+        split = json.load(split_file)
     frame_len = split["frame_len"]
     train_frame = split["train"][1]
     test_frame = split["test"][1]
 
-    with open(f"{prediction_path}/{case_name}/inference.pkl", "rb") as f:
-        vertices = pickle.load(f)
+    with open(f"{prediction_path}/{case_name}/inference.pkl", "rb") as pred_file:
+        vertices = pickle.load(pred_file)
 
-    with open(f"{base_path}/{case_name}/gt_track_3d.pkl", "rb") as f:
-        gt_track_3d = pickle.load(f)
+    with open(f"{base_path}/{case_name}/gt_track_3d.pkl", "rb") as track_file:
+        gt_track_3d = pickle.load(track_file)
 
     # Locate the index of corresponding point index in the vertices, if nan, then ignore the points
     mask = ~np.isnan(gt_track_3d[0]).any(axis=1)

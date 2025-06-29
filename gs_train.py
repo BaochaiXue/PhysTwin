@@ -22,6 +22,7 @@ from tqdm import tqdm
 from gaussian_splatting.utils.image_utils import psnr
 from argparse import ArgumentParser, Namespace
 from gaussian_splatting.arguments import ModelParams, PipelineParams, OptimizationParams
+from typing import Callable, Any
 try:
     from torch.utils.tensorboard import SummaryWriter
     TENSORBOARD_FOUND = True
@@ -268,8 +269,9 @@ def training(
 
 def prepare_output_and_logger(args: Namespace) -> SummaryWriter | None:
     if not args.model_path:
-        if os.getenv('OAR_JOB_ID'):
-            unique_str=os.getenv('OAR_JOB_ID')
+        env_id = os.getenv("OAR_JOB_ID")
+        if env_id is not None:
+            unique_str = env_id
         else:
             unique_str = str(uuid.uuid4())
         args.model_path = os.path.join("./output/", unique_str[0:10])
@@ -297,8 +299,8 @@ def training_report(
     elapsed: float,
     testing_iterations: list[int],
     scene: Scene,
-    renderFunc,
-    renderArgs,
+    renderFunc: Callable[..., dict[str, torch.Tensor]],
+    renderArgs: tuple[Any, ...],
     train_test_exp: bool,
 ) -> None:
     if tb_writer:
