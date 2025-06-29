@@ -9,8 +9,11 @@
 # For inquiries contact  george.drettakis@inria.fr
 #
 
+from __future__ import annotations
+
 import torch
 from gaussian_splatting.scene import Scene
+from gaussian_splatting.scene.cameras import Camera
 import os
 from tqdm import tqdm
 from os import makedirs
@@ -31,6 +34,7 @@ except:
 import numpy as np
 from kornia import create_meshgrid
 import copy
+from typing import Sequence
 from gs_render import (
     remove_gaussians_with_mask,
     remove_gaussians_with_low_opacity,
@@ -50,8 +54,8 @@ import pickle
 def render_set(
     output_path: str,
     name: str,
-    views: list,
-    gaussians_list: list,
+    views: Sequence[Camera],
+    gaussians_list: list[GaussianModel],
     pipeline: PipelineParams,
     background: torch.Tensor,
     train_test_exp: bool,
@@ -137,8 +141,8 @@ def render_sets(
         # rollout
         exp_name = dataset.source_path.split("/")[-1]
         ctrl_pts_path = f"./experiments/{exp_name}/inference.pkl"
-        with open(ctrl_pts_path, "rb") as f:
-            ctrl_pts = pickle.load(f)  # (n_frames, n_ctrl_pts, 3) ndarray
+        with open(ctrl_pts_path, "rb") as ctrl_file:
+            ctrl_pts = pickle.load(ctrl_file)  # (n_frames, n_ctrl_pts, 3) ndarray
         ctrl_pts = torch.tensor(ctrl_pts, dtype=torch.float32, device="cuda")
 
         xyz_0 = gaussians.get_xyz

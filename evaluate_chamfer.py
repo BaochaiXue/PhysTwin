@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import glob
 import pickle
 import json
@@ -5,11 +7,12 @@ import torch
 import csv
 import numpy as np
 import os
+from typing import TextIO
 from pytorch3d.loss import chamfer_distance
 
-prediction_dir = "./experiments"
-base_path = "./data/different_types"
-output_file = "results/final_results.csv"
+prediction_dir: str = "./experiments"
+base_path: str = "./data/different_types"
+output_file: str = "results/final_results.csv"
 
 if not os.path.exists("results"):
     os.makedirs("results")
@@ -24,7 +27,7 @@ def evaluate_prediction(
     num_original_points: int,
     num_surface_points: int,
 ) -> dict[str, int | float]:
-    chamfer_errors = []
+    chamfer_errors: list[float] = []
 
     if not isinstance(vertices, torch.Tensor):
         vertices = torch.tensor(vertices, dtype=torch.float32)
@@ -66,7 +69,7 @@ def evaluate_prediction(
 
 
 if __name__ == "__main__":
-    file = open(output_file, mode="w", newline="", encoding="utf-8")
+    file: TextIO = open(output_file, mode="w", newline="", encoding="utf-8")
     writer = csv.writer(file)
 
     writer.writerow(
@@ -85,12 +88,12 @@ if __name__ == "__main__":
         print(f"Processing {case_name}")
 
         # Read the trajectory data
-        with open(f"{dir_name}/inference.pkl", "rb") as f:
-            vertices = pickle.load(f)
+        with open(f"{dir_name}/inference.pkl", "rb") as pred_file:
+            vertices = pickle.load(pred_file)
 
         # Read the GT object points and masks
-        with open(f"{base_path}/{case_name}/final_data.pkl", "rb") as f:
-            data = pickle.load(f)
+        with open(f"{base_path}/{case_name}/final_data.pkl", "rb") as data_file:
+            data = pickle.load(data_file)
 
         object_points = data["object_points"]
         object_visibilities = data["object_visibilities"]
@@ -99,8 +102,8 @@ if __name__ == "__main__":
         num_surface_points = num_original_points + data["surface_points"].shape[0]
 
         # read the train/test split
-        with open(f"{base_path}/{case_name}/split.json", "r") as f:
-            split = json.load(f)
+        with open(f"{base_path}/{case_name}/split.json", "r") as split_file:
+            split = json.load(split_file)
         train_frame = split["train"][1]
         test_frame = split["test"][1]
 
