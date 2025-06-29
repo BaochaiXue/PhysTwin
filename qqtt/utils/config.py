@@ -69,7 +69,7 @@ class Config:
                 setattr(self, key, value)
 
     def load_from_yaml(self, file_path):
-        with open(file_path, "r") as file:
+        with open(file_path) as file:
             config_dict = yaml.safe_load(file)
         self.update_from_dict(config_dict)
 

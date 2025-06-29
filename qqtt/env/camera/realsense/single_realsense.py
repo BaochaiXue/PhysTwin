@@ -1,6 +1,7 @@
 # Description: MultiRealsense class for multiple RealSense cameras, based on code from Diffusion Policy
 
-from typing import Optional, Callable, Dict
+from typing import Optional, Dict
+from collections.abc import Callable
 import os
 import enum
 import time
@@ -41,8 +42,8 @@ class SingleRealsense(mp.Process):
             enable_infrared=False,
             get_max_k=30,
             advanced_mode_config=None,
-            transform: Optional[Callable[[Dict], Dict]] = None,
-            vis_transform: Optional[Callable[[Dict], Dict]] = None,
+            transform: Callable[[dict], dict] | None = None,
+            vis_transform: Callable[[dict], dict] | None = None,
             is_master=False,
             verbose=False
         ):

@@ -2,6 +2,8 @@
 
 This guide explains how to configure `interactive_playground.py` for experimenting with a prebuilt PhysTwin. The playground loads a trained PhysTwin model and the associated Gaussian Splatting representation so you can interactively control the object in real time.
 
+The Python code in this repository follows the standard type hinting syntax introduced in **Python&nbsp;3.10**.  You will therefore see annotations using built‑in generics such as `list[int]` and unions written with the `|` operator.  These hints are purely for readability and static analysis and do not affect the runtime behaviour of the scripts.
+
 ## Parameter Overview
 
 | Parameter | Default | Description |
