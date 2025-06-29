@@ -1,10 +1,13 @@
+from __future__ import annotations
+
 import os
 import csv
 import json
+from typing import TextIO
 
-base_path = "./data/different_types"
-output_path = "./data/render_eval_data"
-CONTROLLER_NAME = "hand"
+base_path: str = "./data/different_types"
+output_path: str = "./data/render_eval_data"
+CONTROLLER_NAME: str = "hand"
 
 
 def existDir(dir_path: str) -> None:

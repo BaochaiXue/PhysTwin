@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 import os
 import csv
 import json
 import pickle
 import numpy as np
 import open3d as o3d
+from typing import BinaryIO, TextIO
 
-base_path = "./data/different_types"
-output_path = "./data/gaussian_data"
-CONTROLLER_NAME = "hand"
+base_path: str = "./data/different_types"
+output_path: str = "./data/gaussian_data"
+CONTROLLER_NAME: str = "hand"
 
 
 def existDir(dir_path: str) -> None:
@@ -38,8 +41,8 @@ with open("data_config.csv", newline="", encoding="utf-8") as csvfile:
             )
             # Copy the original mask image
             # Get the mask path for the image
-            with open(f"{base_path}/{case_name}/mask/mask_info_{i}.json", "r") as f:
-                data = json.load(f)
+            with open(f"{base_path}/{case_name}/mask/mask_info_{i}.json", "r") as mask_info_file:
+                data = json.load(mask_info_file)
             obj_idx = None
             for key, value in data.items():
                 if value != CONTROLLER_NAME:
@@ -71,15 +74,15 @@ with open("data_config.csv", newline="", encoding="utf-8") as csvfile:
             )
 
         # Prepare the intrinsic and extrinsic parameters
-        with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:
-            c2ws = pickle.load(f)
-        with open(f"{base_path}/{case_name}/metadata.json", "r") as f:
-            intrinsics = json.load(f)["intrinsics"]
+        with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as calibrate_file:
+            c2ws = pickle.load(calibrate_file)
+        with open(f"{base_path}/{case_name}/metadata.json", "r") as metadata_file:
+            intrinsics = json.load(metadata_file)["intrinsics"]
         data = {}
         data["c2ws"] = c2ws
         data["intrinsics"] = intrinsics
-        with open(f"{output_path}/{case_name}/camera_meta.pkl", "wb") as f:
-            pickle.dump(data, f)
+        with open(f"{output_path}/{case_name}/camera_meta.pkl", "wb") as camera_meta_file:
+            pickle.dump(data, camera_meta_file)
 
         # Prepare the shape initialization data
         # If with shape prior, then copy the shape prior data
@@ -93,8 +96,8 @@ with open("data_config.csv", newline="", encoding="utf-8") as csvfile:
         pcd_path = f"{base_path}/{case_name}/pcd/0.npz"
         processed_mask_path = f"{base_path}/{case_name}/mask/processed_masks.pkl"
         data = np.load(pcd_path)
-        with open(processed_mask_path, "rb") as f:
-            processed_masks = pickle.load(f)
+        with open(processed_mask_path, "rb") as mask_file:
+            processed_masks = pickle.load(mask_file)
         for i in range(3):
             points = data["points"][i]
             colors = data["colors"][i]

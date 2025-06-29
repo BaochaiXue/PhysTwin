@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import glob
 import os
 import json
 
-base_path = "./data/different_types"
+base_path: str = "./data/different_types"
 dir_names = glob.glob(f"experiments/*")
 for dir_name in dir_names:
     case_name = dir_name.split("/")[-1]
