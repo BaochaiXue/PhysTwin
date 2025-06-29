@@ -9,17 +9,19 @@
 # For inquiries contact  george.drettakis@inria.fr
 #
 
+from __future__ import annotations
+
 import torch
 import math
 import numpy as np
 from typing import NamedTuple
 
 class BasicPointCloud(NamedTuple):
-    points : np.array
-    colors : np.array
-    normals : np.array
+    points: np.ndarray
+    colors: np.ndarray
+    normals: np.ndarray
 
-def geom_transform_points(points, transf_matrix):
+def geom_transform_points(points: torch.Tensor, transf_matrix: torch.Tensor) -> torch.Tensor:
     P, _ = points.shape
     ones = torch.ones(P, 1, dtype=points.dtype, device=points.device)
     points_hom = torch.cat([points, ones], dim=1)
@@ -28,14 +30,19 @@ def geom_transform_points(points, transf_matrix):
     denom = points_out[..., 3:] + 0.0000001
     return (points_out[..., :3] / denom).squeeze(dim=0)
 
-def getWorld2View(R, t):
+def getWorld2View(R: np.ndarray, t: np.ndarray) -> np.ndarray:
     Rt = np.zeros((4, 4))
     Rt[:3, :3] = R.transpose()
     Rt[:3, 3] = t
     Rt[3, 3] = 1.0
     return np.float32(Rt)
 
-def getWorld2View2(R, t, translate=np.array([.0, .0, .0]), scale=1.0):
+def getWorld2View2(
+    R: np.ndarray,
+    t: np.ndarray,
+    translate: np.ndarray = np.array([0.0, 0.0, 0.0]),
+    scale: float = 1.0,
+) -> np.ndarray:
     Rt = np.zeros((4, 4))
     Rt[:3, :3] = R.transpose()
     Rt[:3, 3] = t
@@ -48,7 +55,7 @@ def getWorld2View2(R, t, translate=np.array([.0, .0, .0]), scale=1.0):
     Rt = np.linalg.inv(C2W)
     return np.float32(Rt)
 
-def getProjectionMatrix(znear, zfar, fovX, fovY):
+def getProjectionMatrix(znear: float, zfar: float, fovX: float, fovY: float) -> torch.Tensor:
     tanHalfFovY = math.tan((fovY / 2))
     tanHalfFovX = math.tan((fovX / 2))
 
@@ -70,8 +77,8 @@ def getProjectionMatrix(znear, zfar, fovX, fovY):
     P[2, 3] = -(zfar * znear) / (zfar - znear)
     return P
 
-def fov2focal(fov, pixels):
+def fov2focal(fov: float, pixels: float) -> float:
     return pixels / (2 * math.tan(fov / 2))
 
-def focal2fov(focal, pixels):
-    return 2*math.atan(pixels/(2*focal))
+def focal2fov(focal: float, pixels: float) -> float:
+    return 2 * math.atan(pixels / (2 * focal))

@@ -1,8 +1,13 @@
+from __future__ import annotations
+
 import torch
 import kornia
 
 
-def quat2mat(q):
+from torch import Tensor
+
+
+def quat2mat(q: Tensor) -> Tensor:
     norm = torch.sqrt(q[:, 0] * q[:, 0] + q[:, 1] * q[:, 1] + q[:, 2] * q[:, 2] + q[:, 3] * q[:, 3])
     q = q / norm[:, None]
     rot = torch.zeros((q.shape[0], 3, 3)).to(q.device)
@@ -22,7 +27,7 @@ def quat2mat(q):
     return rot
 
 
-def mat2quat(rot):
+def mat2quat(rot: Tensor) -> Tensor:
     t = torch.clamp(rot[:, 0, 0] + rot[:, 1, 1] + rot[:, 2, 2], min=-1)
     q = torch.zeros((rot.shape[0], 4)).to(rot.device)
 
