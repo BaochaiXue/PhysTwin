@@ -35,22 +35,17 @@ if __name__ == "__main__":
     train_frame = args.train_frame
 
     if "cloth" in case_name or "package" in case_name:
-        cfg.load_from_yaml("configs/cloth.yaml")
+        yaml_path = "configs/cloth.yaml"
     else:
-        cfg.load_from_yaml("configs/real.yaml")
+        yaml_path = "configs/real.yaml"
+
+    # Combine YAML loading and optimal parameter override in one step
+    optimal_path = f"experiments_optimization/{case_name}/optimal_params.pkl"
+    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path)
 
     print(f"[DATA TYPE]: {cfg.data_type}")
 
     base_dir = f"experiments/{case_name}"
-
-    # Read the first-satage optimized parameters
-    optimal_path = f"experiments_optimization/{case_name}/optimal_params.pkl"
-    assert os.path.exists(
-        optimal_path
-    ), f"{case_name}: Optimal parameters not found: {optimal_path}"
-    with open(optimal_path, "rb") as f:
-        optimal_params = pickle.load(f)
-    cfg.set_optimal_params(optimal_params)
 
     # Set the intrinsic and extrinsic parameters for visualization
     with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:

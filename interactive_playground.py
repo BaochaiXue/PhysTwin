@@ -66,24 +66,19 @@ if __name__ == "__main__":
     case_name = args.case_name
 
     if "cloth" in case_name or "package" in case_name:
-        cfg.load_from_yaml("configs/cloth.yaml")
+        yaml_path = "configs/cloth.yaml"
     else:
-        cfg.load_from_yaml("configs/real.yaml")
+        yaml_path = "configs/real.yaml"
 
-    base_dir = f"./temp_experiments/{case_name}"
-
-    # Read the first-satage optimized parameters to set the indifferentiable parameters
     optimal_path = f"./experiments_optimization/{args.case_name}/optimal_params.pkl"
     logger.info(f"Loading optimal parameters from: {optimal_path}")
-
     if not os.path.exists(optimal_path):
         raise FileNotFoundError(
             f"{args.case_name}: Optimal parameters not found at {optimal_path}"
         )
 
-    with open(optimal_path, "rb") as f:
-        optimal_params = pickle.load(f)
-    cfg.set_optimal_params(optimal_params, use_global_spring_Y=args.use_optimal)
+    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path, use_global_spring_Y=args.use_optimal)
+    base_dir = f"./temp_experiments/{case_name}"
 
     # Set the intrinsic and extrinsic parameters for visualization
     with open(f"{base_path}/{case_name}/calibrate.pkl", "rb") as f:
