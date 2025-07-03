@@ -1,5 +1,6 @@
 from .misc import singleton
 import yaml
+import pickle
 
 
 @singleton
@@ -72,6 +73,30 @@ class Config:
         with open(file_path) as file:
             config_dict = yaml.safe_load(file)
         self.update_from_dict(config_dict)
+
+    def load_from_yaml_with_optimal(
+        self, yaml_path: str, optimal_path: str | None = None, use_global_spring_Y: bool = True
+    ) -> None:
+        """Load base parameters from YAML and optionally override with optimal pickle.
+
+        Previously the calling scripts loaded the YAML and then loaded the
+        ``optimal_params.pkl`` separately. When both zero-order and first-order
+        stages were executed in sequence, ``optimal_params.pkl`` ended up being
+        loaded twice.  This helper ensures that the file is loaded exactly once
+        and clearly separates the two stages: pass ``optimal_path`` only for the
+        first-order optimization step.
+        """
+
+        # Load basic parameters from YAML
+        self.load_from_yaml(yaml_path)
+
+        if optimal_path is None:
+            return
+
+        # Load and apply the optimal parameters from the previous stage
+        with open(optimal_path, "rb") as f:
+            optimal_params = pickle.load(f)
+        self.set_optimal_params(optimal_params, use_global_spring_Y=use_global_spring_Y)
 
     def set_optimal_params(self, optimal_params, use_global_spring_Y=True):
         if use_global_spring_Y:
