@@ -39,9 +39,10 @@ if __name__ == "__main__":
     else:
         yaml_path = "configs/real.yaml"
 
-    # Combine YAML loading and optimal parameter override in one step
+    # First-order stage loads YAML and then the optimal parameters produced by
+    # the zero-order CMA-ES step.
     optimal_path = f"experiments_optimization/{case_name}/optimal_params.pkl"
-    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path)
+    cfg.load_first_order_params(yaml_path, optimal_path)
 
     print(f"[DATA TYPE]: {cfg.data_type}")
 

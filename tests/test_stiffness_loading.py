@@ -32,7 +32,7 @@ cfg = config.cfg
 
 def test_stiffness_loading(tmp_path):
     # zero-order stage: only load YAML
-    cfg.load_from_yaml_with_optimal('configs/real.yaml')
+    cfg.load_zero_order_params('configs/real.yaml')
     yaml_stiffness = cfg.init_spring_Y
     assert isinstance(yaml_stiffness, float)
 
@@ -43,9 +43,9 @@ def test_stiffness_loading(tmp_path):
         pickle.dump({'global_spring_Y': new_val}, f)
 
     # first-order stage: load YAML and override with pickle
-    cfg.load_from_yaml_with_optimal('configs/real.yaml', str(pkl_path))
+    cfg.load_first_order_params('configs/real.yaml', str(pkl_path))
     assert cfg.init_spring_Y == new_val
 
     # loading again should not change the value
-    cfg.load_from_yaml_with_optimal('configs/real.yaml', str(pkl_path))
+    cfg.load_first_order_params('configs/real.yaml', str(pkl_path))
     assert cfg.init_spring_Y == new_val

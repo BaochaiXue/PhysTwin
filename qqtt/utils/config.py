@@ -51,6 +51,11 @@ class Config:
         # Other parameters for visualization
         self.overlay_path = None
 
+        # track the last loaded pickle to avoid re-reading the file if the same
+        # parameters are requested repeatedly.  This helps when zero-order and
+        # first-order stages run in the same Python process.
+        self._loaded_optimal_path: str | None = None
+
     def to_dict(self):
         # Convert the class to dictionary
         return {
@@ -87,16 +92,59 @@ class Config:
         first-order optimization step.
         """
 
-        # Load basic parameters from YAML
-        self.load_from_yaml(yaml_path)
-
         if optimal_path is None:
+            # Zero-order stage
+            self.load_zero_order_params(yaml_path)
             return
 
-        # Load and apply the optimal parameters from the previous stage
+        # First-order stage
+        self.load_first_order_params(
+            yaml_path,
+            optimal_path,
+            use_global_spring_Y=use_global_spring_Y,
+        )
+
+    # ------------------------------------------------------------------
+    # New helpers to emphasise the two-stage loading process
+    # ------------------------------------------------------------------
+    def load_zero_order_params(self, yaml_path: str) -> None:
+        """Load parameters solely from ``yaml_path`` for zero-order CMA-ES.
+
+        The method also resets ``_loaded_optimal_path`` so that the subsequent
+        first-order optimization can safely call :func:`load_first_order_params`
+        without thinking that the pickle has already been processed.
+        """
+
+        self.load_from_yaml(yaml_path)
+        self._loaded_optimal_path = None
+
+    def load_first_order_params(
+        self,
+        yaml_path: str,
+        optimal_path: str,
+        *,
+        use_global_spring_Y: bool = True,
+    ) -> None:
+        """Load parameters for gradient-based refinement.
+
+        ``optimal_path`` is cached to avoid redundant loading.  Previously the
+        caller would load the YAML file and then re-apply ``optimal_params.pkl``
+        each time, which reset ``init_spring_Y`` back to the YAML value before
+        reading the pickle again.  By checking ``_loaded_optimal_path`` we ensure
+        that repeated invocations are idempotent within a single process.
+        """
+
+        if optimal_path == self._loaded_optimal_path:
+            # Avoid re-reading both YAML and pickle if nothing changed
+            return
+
+        self.load_from_yaml(yaml_path)
+
         with open(optimal_path, "rb") as f:
             optimal_params = pickle.load(f)
+
         self.set_optimal_params(optimal_params, use_global_spring_Y=use_global_spring_Y)
+        self._loaded_optimal_path = optimal_path
 
     def set_optimal_params(self, optimal_params, use_global_spring_Y=True):
         if use_global_spring_Y:

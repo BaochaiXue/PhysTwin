@@ -44,7 +44,7 @@ if __name__ == "__main__":
         optimal_path
     ), f"{case_name}: Optimal parameters not found: {optimal_path}"
 
-    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path)
+    cfg.load_first_order_params(yaml_path, optimal_path)
 
     logger.info(f"[DATA TYPE]: {cfg.data_type}")
 
