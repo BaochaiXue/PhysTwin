@@ -14,6 +14,7 @@ The Python code in this repository follows the standard type hinting syntax intr
 | `--case_name` | `double_lift_cloth_3` | Name of the case to load. All available cases can be found inside `data/different_types` or `data_config.csv`. |
 | `--n_ctrl_parts` | `2` | Number of control parts (hands). Use `1` for single‑hand or `2` for double‑hand control. |
 | `--inv_ctrl` | `False` | Invert the horizontal movement direction when pressing control keys. Useful when the camera faces the scene from the opposite direction. |
+| `--ignore_checkpoint_stiffness` | `False` | Keep `init_spring_Y` from the YAML instead of the trained checkpoint. |
 
 ## Detailed Explanations
 

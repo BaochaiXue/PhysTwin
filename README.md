@@ -153,10 +153,11 @@ conda activate phystwin_env
 python interactive_playground.py --inv_ctrl --n_ctrl_parts 2 --case_name double_lift_cloth_3
 ```
 
-Options: 
+Options:
 -   --inv_ctrl: inverse the control direction
--   --n_ctrol_parts: number of control panel (single: 1, double: 2) 
+-   --n_ctrol_parts: number of control panel (single: 1, double: 2)
 -   --case_name: case name of the PhysTwin case
+-   --ignore_checkpoint_stiffness: use stiffness from YAML instead of the trained model
 
 ### Train the PhysTwin with the data
 Use the processed data to train the PhysTwin. Instructions on how to get above `experiments_optimization`, `experiments` and `gaussian_output` (Can adjust the code below to only train on several cases). After this step, you get the PhysTwin that can be used in the interactive playground.
