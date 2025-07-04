@@ -937,7 +937,13 @@ class InvPhyTrainerWarp:
         return self.structure_points[min_idx].unsqueeze(0)
 
     def interactive_playground(
-        self, model_path, gs_path, n_ctrl_parts=1, inv_ctrl=False
+        self,
+        model_path,
+        gs_path,
+        n_ctrl_parts=1,
+        inv_ctrl=False,
+        *,
+        ignore_checkpoint_stiffness=False,
     ):
         # Load the model
         logger.info(f"Load model from {model_path}")
@@ -954,7 +960,8 @@ class InvPhyTrainerWarp:
             len(spring_Y) == self.simulator.n_springs
         ), "Check if the loaded checkpoint match the config file to connect the springs"
 
-        self.simulator.set_spring_Y(torch.log(spring_Y).detach().clone())
+        if not ignore_checkpoint_stiffness:
+            self.simulator.set_spring_Y(torch.log(spring_Y).detach().clone())
         self.simulator.set_collide(
             collide_elas.detach().clone(), collide_fric.detach().clone()
         )

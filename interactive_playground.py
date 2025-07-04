@@ -59,6 +59,11 @@ if __name__ == "__main__":
         action="store_false",
         help="run from YAML only",
     )
+    parser.add_argument(
+        "--ignore_checkpoint_stiffness",
+        action="store_true",
+        help="do not load spring stiffness from the trained checkpoint",
+    )
     parser.set_defaults(use_optimal=True)
     args = parser.parse_args()
 
@@ -106,5 +111,9 @@ if __name__ == "__main__":
 
     best_model_path = glob.glob(f"experiments/{case_name}/train/best_*.pth")[0]
     trainer.interactive_playground(
-        best_model_path, gaussians_path, args.n_ctrl_parts, args.inv_ctrl
+        best_model_path,
+        gaussians_path,
+        args.n_ctrl_parts,
+        args.inv_ctrl,
+        ignore_checkpoint_stiffness=args.ignore_checkpoint_stiffness,
     )
