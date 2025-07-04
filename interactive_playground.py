@@ -77,7 +77,9 @@ if __name__ == "__main__":
             f"{args.case_name}: Optimal parameters not found at {optimal_path}"
         )
 
-    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path, use_global_spring_Y=args.use_optimal)
+    cfg.load_first_order_params(
+        yaml_path, optimal_path, use_global_spring_Y=args.use_optimal
+    )
     base_dir = f"./temp_experiments/{case_name}"
 
     # Set the intrinsic and extrinsic parameters for visualization

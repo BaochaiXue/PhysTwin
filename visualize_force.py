@@ -52,7 +52,7 @@ if __name__ == "__main__":
     assert os.path.exists(
         optimal_path
     ), f"{case_name}: Optimal parameters not found: {optimal_path}"
-    cfg.load_from_yaml_with_optimal(yaml_path, optimal_path)
+    cfg.load_first_order_params(yaml_path, optimal_path)
 
     base_dir = f"./experiments/{case_name}"
 

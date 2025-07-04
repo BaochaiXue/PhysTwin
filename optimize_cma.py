@@ -41,9 +41,9 @@ if __name__ == "__main__":
     max_iter = args.max_iter
 
     if "cloth" in case_name or "package" in case_name:
-        cfg.load_from_yaml_with_optimal("configs/cloth.yaml")
+        cfg.load_zero_order_params("configs/cloth.yaml")
     else:
-        cfg.load_from_yaml_with_optimal("configs/real.yaml")
+        cfg.load_zero_order_params("configs/real.yaml")
 
     base_dir = f"experiments_optimization/{case_name}"
 
