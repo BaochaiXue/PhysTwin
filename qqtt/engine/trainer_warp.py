@@ -962,6 +962,17 @@ class InvPhyTrainerWarp:
 
         if not ignore_checkpoint_stiffness:
             self.simulator.set_spring_Y(torch.log(spring_Y).detach().clone())
+
+        # Print the final spring stiffness used by the simulator for debugging
+        loaded_stiffness = (
+            wp.to_torch(self.simulator.wp_spring_Y, requires_grad=False)
+            .exp()
+            .cpu()
+            .numpy()
+        )
+        logger.info(
+            f"Final spring stiffness (first 10 values): {loaded_stiffness[:10]}"
+        )
         self.simulator.set_collide(
             collide_elas.detach().clone(), collide_fric.detach().clone()
         )
