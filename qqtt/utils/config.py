@@ -1,4 +1,5 @@
 from .misc import singleton
+import logging
 import yaml
 import pickle
 
@@ -145,6 +146,9 @@ class Config:
 
         self.set_optimal_params(optimal_params, use_global_spring_Y=use_global_spring_Y)
         self._loaded_optimal_path = optimal_path
+
+        # Log the resulting spring stiffness for verification
+        logging.info(f"Config init_spring_Y loaded: {self.init_spring_Y}")
 
     def set_optimal_params(self, optimal_params, use_global_spring_Y=True):
         if use_global_spring_Y:
