@@ -13758,8 +13758,12 @@ class InvPhyTrainerWarp:
 
             torch.cuda.synchronize()
 
+            interp_time = 0
+            knn_weights_time = 0
+            motion_interp_time = 0
             if prev_x is not None:
                 with torch.no_grad():
+                    interp_timer.start()
 
                     prev_particle_pos = prev_x
                     cur_particle_pos = x
@@ -13769,17 +13773,18 @@ class InvPhyTrainerWarp:
                             prev_x, K=16
                         )  # only computed in the first iteration
 
+                    knn_weights_timer.start()
                     if weights is None:
                         weights, weights_indices = knn_weights_sparse(
                             prev_particle_pos, current_pos, K=16
                         )  # only computed in the first iteration
+                    else:
+                        weights = calc_weights_vals_from_indices(
+                            prev_particle_pos, current_pos, weights_indices
+                        )
+                    knn_weights_time = knn_weights_timer.stop()
 
-                    interp_timer.start()
-
-                    weights = calc_weights_vals_from_indices(
-                        prev_particle_pos, current_pos, weights_indices
-                    )
-
+                    motion_interp_timer.start()
                     current_pos, current_rot, _ = interpolate_motions_speedup(
                         bones=prev_particle_pos,
                         motions=cur_particle_pos - prev_particle_pos,
@@ -13789,13 +13794,17 @@ class InvPhyTrainerWarp:
                         xyz=current_pos,
                         quat=current_rot,
                     )
+                    motion_interp_time = motion_interp_timer.stop()
 
                     # update gaussians with the new positions and rotations
                     gaussians._xyz = current_pos
                     gaussians._rotation = current_rot
 
-                interp_time = interp_timer.stop()
-                component_times["full_motion_interpolation"].append(interp_time)
+                    interp_time = interp_timer.stop()
+
+            component_times["full_motion_interpolation"].append(interp_time)
+            component_times["knn_weights"].append(knn_weights_time)
+            component_times["motion_interp"].append(motion_interp_time)
 
             torch.cuda.synchronize()
 
