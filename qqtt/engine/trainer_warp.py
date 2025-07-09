@@ -460,7 +460,9 @@ class InvPhyTrainerWarp:
         if model_path is not None:
             # Load the model
             logger.info(f"Load model from {model_path}")
-            checkpoint = torch.load(model_path, map_location=cfg.device)
+            checkpoint = torch.load(
+                model_path, map_location=cfg.device, weights_only=False
+            )
 
             spring_Y = checkpoint["spring_Y"]
             collide_elas = checkpoint["collide_elas"]
@@ -947,7 +949,9 @@ class InvPhyTrainerWarp:
     ):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]
@@ -1433,7 +1437,9 @@ class InvPhyTrainerWarp:
     def visualize_force(self, model_path, gs_path, n_ctrl_parts=2, force_scale=30000):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]
@@ -1775,7 +1781,9 @@ class InvPhyTrainerWarp:
     def visualize_material(self, model_path, gs_path, relative_material=True):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]

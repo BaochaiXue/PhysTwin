@@ -2540,7 +2540,7 @@ class SuperGlue(nn.Module):
         assert self.config['weights'] in ['indoor', 'outdoor']
         path = Path(__file__).parent
         path = path / 'weights/superglue_{}.pth'.format(self.config['weights'])
-        self.load_state_dict(torch.load(str(path)))
+        self.load_state_dict(torch.load(str(path), weights_only=True))
         print('Loaded SuperGlue model (\"{}\" weights)'.format(
             self.config['weights']))
 
@@ -2740,7 +2740,7 @@ class SuperPoint(nn.Module):
             kernel_size=1, stride=1, padding=0)
 
         path = Path(__file__).parent / 'weights/superpoint_v1.pth'
-        self.load_state_dict(torch.load(str(path)))
+        self.load_state_dict(torch.load(str(path), weights_only=True))
 
         mk = self.config['max_keypoints']
         if mk == 0 or mk < -1:
@@ -6407,8 +6407,10 @@ def get_state_dict(net_type: str = 'alex', version: str = '0.1'):
 
     # download
     old_state_dict = torch.hub.load_state_dict_from_url(
-        url, progress=True,
-        map_location=None if torch.cuda.is_available() else torch.device('cpu')
+        url,
+        progress=True,
+        map_location=None if torch.cuda.is_available() else torch.device('cpu'),
+        weights_only=True,
     )
 
     # rename keys
@@ -11188,7 +11190,7 @@ def training(
     scene = Scene(dataset, gaussians)
     gaussians.training_setup(opt)
     if checkpoint:
-        (model_params, first_iter) = torch.load(checkpoint)
+        (model_params, first_iter) = torch.load(checkpoint, weights_only=False)
         gaussians.restore(model_params, opt)
 
     bg_color = [1, 1, 1] if dataset.white_background else [0, 0, 0]
@@ -12971,7 +12973,9 @@ class InvPhyTrainerWarp:
         if model_path is not None:
             # Load the model
             logger.info(f"Load model from {model_path}")
-            checkpoint = torch.load(model_path, map_location=cfg.device)
+            checkpoint = torch.load(
+                model_path, map_location=cfg.device, weights_only=False
+            )
 
             spring_Y = checkpoint["spring_Y"]
             collide_elas = checkpoint["collide_elas"]
@@ -13458,7 +13462,9 @@ class InvPhyTrainerWarp:
     ):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]
@@ -13944,7 +13950,9 @@ class InvPhyTrainerWarp:
     def visualize_force(self, model_path, gs_path, n_ctrl_parts=2, force_scale=30000):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]
@@ -14286,7 +14294,9 @@ class InvPhyTrainerWarp:
     def visualize_material(self, model_path, gs_path, relative_material=True):
         # Load the model
         logger.info(f"Load model from {model_path}")
-        checkpoint = torch.load(model_path, map_location=cfg.device)
+        checkpoint = torch.load(
+            model_path, map_location=cfg.device, weights_only=False
+        )
 
         spring_Y = checkpoint["spring_Y"]
         collide_elas = checkpoint["collide_elas"]
