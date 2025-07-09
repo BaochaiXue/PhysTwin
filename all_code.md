@@ -18686,7 +18686,7 @@ drag_damping: 3
 base_lr: 1e-3
 iterations: 200
 vis_interval: 20
-init_spring_Y: 1e12 #change from 3e4 to 1e12
+init_spring_Y: 1e10 #change from 3e4
 collide_elas: 0.5
 collide_fric: 0.3
 collide_object_elas: 0.7
@@ -18696,7 +18696,7 @@ object_max_neighbours: 30
 controller_radius: 0.04
 controller_max_neighbours: 50
 spring_Y_min: 0
-spring_Y_max: 1e5
+spring_Y_max: 1e10 #change from 1e5
 reverse_z: true
 vp_front: [1, 0, -2]
 vp_up: [0, 0, -1]
@@ -18727,7 +18727,7 @@ object_max_neighbours: 30
 controller_radius: 0.04
 controller_max_neighbours: 50
 spring_Y_min: 0
-spring_Y_max: 1e5
+spring_Y_max: 1e10 # change from 1e5
 reverse_z: true
 vp_front: [1, 0, -2]
 vp_up: [0, 0, -1]
